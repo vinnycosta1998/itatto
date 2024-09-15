@@ -1,6 +1,7 @@
 import { hash } from "bcryptjs";
 import { UsersRepository, UsersRepositoryProps } from "../../repositories/users-repository";
 import { UserAlreadyExistsError } from "../../errors/user-already-exists-error";
+import { PasswordLenghtError } from "../../errors/password-length-error";
 
 interface RegisterUseCaseRequestProps{
     name: string
@@ -30,6 +31,11 @@ export class RegisterUseCase{
         created_at,
         updated_at
     }: RegisterUseCaseRequestProps): Promise<RegisterUsecaseResponseProps>{
+        
+        if(password.length < 8 || password.length > 14){
+            throw new PasswordLenghtError()
+        }
+
         const password_hash = await hash(password, 8)
 
         const userWithSameEmail = await this.usersRepository.findByEmail(email)

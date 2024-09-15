@@ -3,6 +3,7 @@ import { RegisterUseCase } from './register'
 import { compare } from 'bcryptjs'
 import { InMemoryUsersRepository } from '../../repositories/in-memory/in-memory-users-repository'
 import { UserAlreadyExistsError } from '../../errors/user-already-exists-error'
+import { PasswordLenghtError } from '../../errors/password-length-error'
 
 let usersRepository: InMemoryUsersRepository
 let sut: RegisterUseCase
@@ -56,7 +57,7 @@ describe("Register Use Case", () => {
             cep: '81130590'
         })
 
-        await expect(() => {
+        await expect(() => 
             sut.execute({
                 name: 'John Doe',
                 gender: 'male',
@@ -64,7 +65,7 @@ describe("Register Use Case", () => {
                 password: '12345678',
                 cpf: '11255549980',
                 cep: '81130590'
-            })
-        }).rejects.toBeInstanceOf(UserAlreadyExistsError)
+            }),
+        ).rejects.toBeInstanceOf(UserAlreadyExistsError)
     })
 })
