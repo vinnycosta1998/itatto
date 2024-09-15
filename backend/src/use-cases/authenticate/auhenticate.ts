@@ -1,5 +1,7 @@
 import { compare } from "bcryptjs"
 import { UsersRepository, UsersRepositoryProps } from "../../repositories/users-repository"
+import { InvalidCredentialsError } from "../../errors/invalid-credentials-error"
+import { UserNotFoundError } from "../../errors/user-not-found-error"
 
 interface AuthenticateRequestProps{
     email: string
@@ -17,18 +19,17 @@ export class AuthenticateUseCase{
         const user = await this.usersRepository.findByEmail(email)
 
         if(!user){
-            throw new Error("User not found")
+            throw new UserNotFoundError()
         }
 
         const doesPasswordMatch = await compare(password, user.password)
 
         if(!doesPasswordMatch){
-            throw new Error("credentials invalid")
+            throw new InvalidCredentialsError()
         }
 
         return {
             user
         }
-        
     }
 }
