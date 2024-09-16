@@ -3,7 +3,6 @@ import { beforeEach, describe, it, expect } from "vitest";
 import { InMemoryUsersRepository } from "../../repositories/in-memory/in-memory-users-repository";
 import { AuthenticateUseCase } from "./authenticate";
 import { UserNotFoundError } from "../../errors/user-not-found-error";
-import { InvalidCredentialsError } from "../../errors/invalid-credentials-error";
 import { randomUUID } from "node:crypto";
 
 let usersRepository: InMemoryUsersRepository
@@ -42,13 +41,4 @@ describe('Authenticate Use Case', () => {
             })
         ).rejects.toBeInstanceOf(UserNotFoundError)
     })
-
-    // it('should not be able to authenticate with password wrong', async () => {
-    //     await expect(() => 
-    //         sut.execute({
-    //             email: 'johndoe@example.com',
-    //             password: '123456'
-    //         })
-    //     ).rejects.toBeInstanceOf(InvalidCredentialsError)
-    // })
 })
