@@ -1,7 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { describe, it, beforeEach, expect } from "vitest";
 import { InMemoryTattoosRepository } from "../../repositories/in-memory/in-memory-tattoos-repository";
-import { SearchManyTattoosUseCase } from "./search-many";
+import { SearchManyTattoosUseCase } from "./search-many-tattoo";
 
 let tattoosRepository: InMemoryTattoosRepository
 let sut: SearchManyTattoosUseCase
