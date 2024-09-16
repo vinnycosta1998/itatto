@@ -27,6 +27,19 @@ describe("Register Use Case", () => {
         expect(user.id).toEqual(expect.any(String))
     })
 
+    // it('should be able to password contain between 8 and 14 carachteres', async () => {
+    //     await expect(() => {
+    //         sut.execute({
+    //             name: 'John Doe',
+    //             gender: 'male',
+    //             email: 'johndoe@example.com',
+    //             password: '12345678',
+    //             cpf: '11255549980',
+    //             cep: '81130590'
+    //         })
+    //     }).rejects.toBeInstanceOf(PasswordLenghtError)
+    // })
+
     it('should hash user pasword upon registration', async () => {
         const { user } = await sut.execute({
             name: 'John Doe',

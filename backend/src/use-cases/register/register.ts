@@ -36,7 +36,7 @@ export class RegisterUseCase{
             throw new PasswordLenghtError()
         }
 
-        const password_hash = await hash(password, 8)
+        const password_hash = await hash(password, 6)
 
         const userWithSameEmail = await this.usersRepository.findByEmail(email)
 
