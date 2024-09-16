@@ -17,4 +17,14 @@ export class InMemoryTattoosRepository implements TattoosRepository{
 
         return tattoo
     }
+
+    async findById(id: string){
+        const tattoo = this.items.find((item) => item.id === id)
+
+        if(!tattoo){
+            return null
+        }
+
+        return tattoo
+    }
 }

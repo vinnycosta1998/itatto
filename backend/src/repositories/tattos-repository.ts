@@ -10,4 +10,5 @@ export interface TattoosRepositoryProps{
 
 export interface TattoosRepository{
     create(data: TattoosRepositoryProps) : Promise<TattoosRepositoryProps>
+    findById(id: string): Promise<TattoosRepositoryProps | null>
 }
