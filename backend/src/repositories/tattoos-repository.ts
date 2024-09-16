@@ -11,5 +11,6 @@ export interface TattoosRepositoryProps{
 export interface TattoosRepository{
     create(data: TattoosRepositoryProps) : Promise<TattoosRepositoryProps>
     findById(id: string): Promise<TattoosRepositoryProps | null>
+    deleteById(id: string): Promise<TattoosRepositoryProps[]>
     searchMany(query: string, page:number): Promise<TattoosRepositoryProps[]>
 }
