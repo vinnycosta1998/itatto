@@ -1,6 +1,6 @@
 import { randomUUID } from "node:crypto";
 import { beforeAll, describe, it, expect } from "vitest";
-import { TattoosRepository } from "../../repositories/tattos-repository";
+import { TattoosRepository } from "../../repositories/tattoos-repository";
 import { CreateTattoUseCase } from "./create-tattoo";
 import { InMemoryTattoosRepository } from "../../repositories/in-memory/in-memory-tattoos-repository";
 import { DescriptionHasLongError } from "../../errors/description-has-long-error";

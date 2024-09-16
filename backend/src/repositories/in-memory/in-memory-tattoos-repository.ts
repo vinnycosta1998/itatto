@@ -1,5 +1,5 @@
 import { randomUUID } from "node:crypto";
-import { TattoosRepository, TattoosRepositoryProps } from "../tattos-repository";
+import { TattoosRepository, TattoosRepositoryProps } from "../tattoos-repository";
 
 export class InMemoryTattoosRepository implements TattoosRepository{
     public items: TattoosRepositoryProps[] = []
@@ -26,5 +26,9 @@ export class InMemoryTattoosRepository implements TattoosRepository{
         }
 
         return tattoo
+    }
+
+    async searchMany(query: string, page:number){
+        return this.items.filter((item) => item.title.includes(query)).slice((page -1) * 20, page * 20)
     }
 }

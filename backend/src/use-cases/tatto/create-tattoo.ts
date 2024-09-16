@@ -1,5 +1,5 @@
 import { randomUUID } from "node:crypto"
-import { TattoosRepository, TattoosRepositoryProps } from "../../repositories/tattos-repository"
+import { TattoosRepository, TattoosRepositoryProps } from "../../repositories/tattoos-repository"
 import { DescriptionHasLongError } from "../../errors/description-has-long-error"
 
 interface CreateTattooRequestProps{
