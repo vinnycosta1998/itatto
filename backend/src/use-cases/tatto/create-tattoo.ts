@@ -1,5 +1,6 @@
 import { randomUUID } from "node:crypto"
 import { TattoosRepository, TattoosRepositoryProps } from "../../repositories/tattos-repository"
+import { DescriptionHasLongError } from "../../errors/description-has-long-error"
 
 interface CreateTattooRequestProps{
     id: string
@@ -20,7 +21,7 @@ export class CreateTattoUseCase{
         const descriptionLength = description.length
 
         if(descriptionLength > 60){
-            throw new Error("description has contain between 0 to 60 cachateres long")
+            throw new DescriptionHasLongError()
         }
 
         const tattoo = await this.tattoosRepository.create({

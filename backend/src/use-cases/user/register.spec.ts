@@ -1,3 +1,4 @@
+import { randomUUID } from 'node:crypto'
 import { expect, describe, it, beforeEach } from 'vitest'
 import { RegisterUseCase } from './register'
 import { compare } from 'bcryptjs'
@@ -16,6 +17,7 @@ describe("Register Use Case", () => {
 
     it('should be able to register', async () => {
         const { user } = await sut.execute({
+            id: randomUUID(),
             name: 'John Doe',
             gender: 'male',
             email: 'johndoe@example.com',
@@ -42,6 +44,7 @@ describe("Register Use Case", () => {
 
     it('should hash user pasword upon registration', async () => {
         const { user } = await sut.execute({
+            id: randomUUID(),
             name: 'John Doe',
             gender: 'male',
             email: 'johndoe@example.com',
@@ -62,6 +65,7 @@ describe("Register Use Case", () => {
         const email = 'johndoe@example.com'
 
         await sut.execute({
+            id: randomUUID(),
             name: 'John Doe',
             gender: 'male',
             email,
@@ -72,6 +76,7 @@ describe("Register Use Case", () => {
 
         await expect(() => 
             sut.execute({
+                id: randomUUID(),
                 name: 'John Doe',
                 gender: 'male',
                 email,

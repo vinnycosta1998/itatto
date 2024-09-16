@@ -4,6 +4,7 @@ import { InMemoryUsersRepository } from "../../repositories/in-memory/in-memory-
 import { AuthenticateUseCase } from "./authenticate";
 import { UserNotFoundError } from "../../errors/user-not-found-error";
 import { InvalidCredentialsError } from "../../errors/invalid-credentials-error";
+import { randomUUID } from "node:crypto";
 
 let usersRepository: InMemoryUsersRepository
 let sut: AuthenticateUseCase
@@ -16,7 +17,7 @@ describe('Authenticate Use Case', () => {
 
     it('should be able to authenticate', async () => {
         await usersRepository.create({
-            id: "1",
+            id: randomUUID(),
             name: 'John Doe',
             gender: 'male',
             email: 'johndoe@example.com',
