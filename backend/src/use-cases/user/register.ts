@@ -1,10 +1,10 @@
-import { randomUUID } from "node:crypto";
 import { hash } from "bcryptjs";
 import { UsersRepository, UsersRepositoryProps } from "../../repositories/users-repository";
 import { UserAlreadyExistsError } from "../../errors/user-already-exists-error";
 import { PasswordLenghtError } from "../../errors/password-length-error";
 
 interface RegisterRequestProps{
+    id: string
     name: string
     gender: 'male' | 'female'
     email: string
@@ -23,14 +23,13 @@ export class RegisterUseCase{
     constructor(private usersRepository: UsersRepository){}
 
     async execute({
+        id,
         name,
         gender,
         email,
         password,
         cpf,
         cep,
-        created_at,
-        updated_at
     }: RegisterRequestProps): Promise<RegisterResponseProps>{
         
         if(password.length < 8 || password.length > 14){
@@ -46,7 +45,7 @@ export class RegisterUseCase{
         }
 
         const user = await this.usersRepository.create({
-            id: randomUUID(),
+            id,
             name,
             gender,
             email,
