@@ -1,7 +1,7 @@
 import { hash } from "bcryptjs";
 import { beforeEach, describe, it, expect } from "vitest";
 import { InMemoryUsersRepository } from "../../repositories/in-memory/in-memory-users-repository";
-import { AuthenticateUseCase } from "./auhenticate";
+import { AuthenticateUseCase } from "./authenticate";
 import { UserNotFoundError } from "../../errors/user-not-found-error";
 import { InvalidCredentialsError } from "../../errors/invalid-credentials-error";
 
