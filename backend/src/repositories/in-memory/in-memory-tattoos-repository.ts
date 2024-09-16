@@ -31,7 +31,7 @@ export class InMemoryTattoosRepository implements TattoosRepository{
     async deleteById(id: string){
         const tattoos = this.items.filter((item) => item.id !== id)
 
-        return tattoos
+        return this.items = tattoos
     }
 
     async searchMany(query: string, page:number){
