@@ -60,6 +60,14 @@ export class InMemoryTattoosRepository implements TattoosRepository {
     return tattoo
   }
 
+  async updateImageTattoById(id: string, image: string) {
+    const tattoo = this.items.map(item =>
+      item.id === id ? { ...item, image } : item
+    )
+
+    return tattoo
+  }
+
   async updateTitleTattoById(id: string, title: string) {
     const tattoo = this.items.map(item =>
       item.id === id ? { ...item, title } : item

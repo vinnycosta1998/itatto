@@ -21,6 +21,10 @@ export interface TattoosRepository {
     id: string,
     genre: string
   ): Promise<TattoosRepositoryProps[]>
+  updateImageTattoById(
+    id: string,
+    image: string
+  ): Promise<TattoosRepositoryProps[]>
   updateTitleTattoById(
     id: string,
     title: string
