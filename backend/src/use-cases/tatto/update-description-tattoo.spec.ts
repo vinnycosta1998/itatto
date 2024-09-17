@@ -1,15 +1,15 @@
 import { randomUUID } from 'node:crypto'
 import { beforeEach, describe, it, expect } from 'vitest'
 import { InMemoryTattoosRepository } from '../../repositories/in-memory/in-memory-tattoos-repository'
-import { UpdateTitleTattoUseCase } from './update-title-tatto'
+import { UpdateDescriptionTattoUseCase } from './update-description-tattoo'
 
 let tattoRepository: InMemoryTattoosRepository
-let sut: UpdateTitleTattoUseCase
+let sut: UpdateDescriptionTattoUseCase
 
-describe('Update title tatto test', () => {
+describe('Update description tatto test', () => {
   beforeEach(() => {
     tattoRepository = new InMemoryTattoosRepository()
-    sut = new UpdateTitleTattoUseCase(tattoRepository)
+    sut = new UpdateDescriptionTattoUseCase(tattoRepository)
   })
 
   it('should be able to update title the tatto by id', async () => {
@@ -23,11 +23,11 @@ describe('Update title tatto test', () => {
 
     const { tattoos } = await sut.execute({
       id: tattoo.id,
-      title: 'Bear hand tatto'
+      description: 'Bear in chest'
     })
 
     expect(tattoos).toEqual([
-      expect.objectContaining({ title: 'Bear hand tatto' })
+      expect.objectContaining({ description: 'Bear in chest' })
     ])
   })
 })
