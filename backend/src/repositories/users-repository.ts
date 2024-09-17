@@ -12,5 +12,6 @@ export interface UsersRepositoryProps {
 
 export interface UsersRepository {
   create(data: UsersRepositoryProps): Promise<UsersRepositoryProps>
+  findById(id: string): Promise<UsersRepositoryProps | null>
   findByEmail(email: string): Promise<UsersRepositoryProps | null>
 }
