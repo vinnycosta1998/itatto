@@ -4,7 +4,6 @@ import { RegisterUseCase } from './register'
 import { compare } from 'bcryptjs'
 import { InMemoryUsersRepository } from '../../repositories/in-memory/in-memory-users-repository'
 import { UserAlreadyExistsError } from '../../errors/user-already-exists-error'
-import { PasswordLenghtError } from '../../errors/password-length-error'
 
 let usersRepository: InMemoryUsersRepository
 let sut: RegisterUseCase
@@ -19,39 +18,19 @@ describe('Register Use Case', () => {
     const { user } = await sut.execute({
       id: randomUUID(),
       name: 'John Doe',
-      gender: 'male',
       email: 'johndoe@example.com',
-      password: '12345678',
-      cpf: '11255549980',
-      cep: '81130590'
+      password: '12345678'
     })
 
     expect(user.id).toEqual(expect.any(String))
   })
 
-  // it('it should not be able to register with password lower the 8 caractheres or greater the 14 caracheteres ', async () => {
-  //   const { user } = await sut.execute({
-  //     id: randomUUID(),
-  //     name: 'John Doe',
-  //     gender: 'male',
-  //     email: 'johndoe@example.com',
-  //     password: '123456',
-  //     cpf: '11255549980',
-  //     cep: '81130590'
-  //   })
-
-  //   expect(user).rejects.toBeInstanceOf(PasswordLenghtError)
-  // })
-
   it('should hash user pasword upon registration', async () => {
     const { user } = await sut.execute({
       id: randomUUID(),
       name: 'John Doe',
-      gender: 'male',
       email: 'johndoe@example.com',
-      password: '12345678',
-      cpf: '11255549980',
-      cep: '81130590'
+      password: '12345678'
     })
 
     const isPasswordCorrectHashed = await compare('12345678', user.password)
@@ -65,22 +44,16 @@ describe('Register Use Case', () => {
     await sut.execute({
       id: randomUUID(),
       name: 'John Doe',
-      gender: 'male',
       email,
-      password: '12345678',
-      cpf: '11255549980',
-      cep: '81130590'
+      password: '12345678'
     })
 
     await expect(() =>
       sut.execute({
         id: randomUUID(),
         name: 'John Doe',
-        gender: 'male',
         email,
-        password: '12345678',
-        cpf: '11255549980',
-        cep: '81130590'
+        password: '12345678'
       })
     ).rejects.toBeInstanceOf(UserAlreadyExistsError)
   })

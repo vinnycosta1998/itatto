@@ -1,11 +1,8 @@
 export interface UsersRepositoryProps {
   id: string
   name: string
-  gender: string
   email: string
   password: string
-  cpf: string
-  cep: string
   created_at?: Date
   updated_at?: Date
 }

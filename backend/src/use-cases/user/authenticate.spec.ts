@@ -18,11 +18,8 @@ describe('Authenticate Use Case', () => {
     await usersRepository.create({
       id: randomUUID(),
       name: 'John Doe',
-      gender: 'male',
       email: 'johndoe@example.com',
-      password: await hash('12345678', 6),
-      cpf: '11255549980',
-      cep: '81130590'
+      password: await hash('12345678', 6)
     })
 
     const { user } = await sut.execute({

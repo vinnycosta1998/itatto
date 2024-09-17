@@ -8,10 +8,10 @@ Usuario
 
 Tattoos
 
-[ ] - Deve ser possivel postar uma tatto
+[ X ] - Deve ser possivel postar uma tatto
 
-[ ] - Deve ser possivel atualizar os dados da Tatto
+[ X ] - Deve ser possivel atualizar os dados da Tatto
 
-[ ] - Deve ser possivel excluir uma tatto
+[ X ] - Deve ser possivel excluir uma tatto
 
-[ ] - Deve ser possivel visualizar uma tatto
+[ X ] - Deve ser possivel visualizar uma tatto

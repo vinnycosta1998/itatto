@@ -9,11 +9,8 @@ import { PasswordLenghtError } from '../../errors/password-length-error'
 interface RegisterRequestProps {
   id: string
   name: string
-  gender: 'male' | 'female'
   email: string
   password: string
-  cpf: string
-  cep: string
   created_at?: Date
   updated_at?: Date
 }
@@ -28,11 +25,8 @@ export class RegisterUseCase {
   async execute({
     id,
     name,
-    gender,
     email,
-    password,
-    cpf,
-    cep
+    password
   }: RegisterRequestProps): Promise<RegisterResponseProps> {
     if (password.length < 8 || password.length > 14) {
       throw new PasswordLenghtError()
@@ -49,11 +43,8 @@ export class RegisterUseCase {
     const user = await this.usersRepository.create({
       id,
       name,
-      gender,
       email,
-      password: password_hash,
-      cpf,
-      cep
+      password: password_hash
     })
 
     return {

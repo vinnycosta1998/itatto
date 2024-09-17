@@ -16,11 +16,8 @@ describe('Get user profile test', () => {
     const createdUser = await usersRepository.create({
       id: randomUUID(),
       name: 'John Doe',
-      gender: 'male',
       email: 'johndoe@example.com',
-      password: '12345678',
-      cpf: '11255549980',
-      cep: '81130590'
+      password: '12345678'
     })
 
     const { user } = await sut.execute({
