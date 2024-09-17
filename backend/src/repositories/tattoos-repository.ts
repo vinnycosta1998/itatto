@@ -13,6 +13,10 @@ export interface TattoosRepository {
   findById(id: string): Promise<TattoosRepositoryProps | null>
   deleteById(id: string): Promise<TattoosRepositoryProps[]>
   searchMany(query: string, page: number): Promise<TattoosRepositoryProps[]>
+  updateDescriptionTattoById(
+    id: string,
+    description: string
+  ): Promise<TattoosRepositoryProps[]>
   updateTitleTattoById(
     id: string,
     title: string

@@ -44,6 +44,14 @@ export class InMemoryTattoosRepository implements TattoosRepository {
       .slice((page - 1) * 20, page * 20)
   }
 
+  async updateDescriptionTattoById(id: string, description: string) {
+    const tattoo = this.items.map(item =>
+      item.id === id ? { ...item, description } : item
+    )
+
+    return tattoo
+  }
+
   async updateTitleTattoById(id: string, title: string) {
     const tattoo = this.items.map(item =>
       item.id === id ? { ...item, title } : item
