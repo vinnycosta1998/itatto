@@ -1,14 +1,7 @@
-export interface UsersRepositoryProps {
-  id: string
-  name: string
-  email: string
-  password: string
-  created_at?: Date
-  updated_at?: Date
-}
+import type { User } from '@prisma/client'
 
 export interface UsersRepository {
-  create(data: UsersRepositoryProps): Promise<UsersRepositoryProps>
-  findById(id: string): Promise<UsersRepositoryProps | null>
-  findByEmail(email: string): Promise<UsersRepositoryProps | null>
+  create(data: User): Promise<User>
+  findById(id: string): Promise<User | null>
+  findByEmail(email: string): Promise<User | null>
 }

@@ -1,32 +1,12 @@
-export interface TattoosRepositoryProps {
-  id: string
-  title: string
-  description: string
-  genre: string
-  image: string
-  created_at?: Date
-  updated_at?: Date
-}
+import type { Tatto } from '@prisma/client'
 
 export interface TattoosRepository {
-  create(data: TattoosRepositoryProps): Promise<TattoosRepositoryProps>
-  findById(id: string): Promise<TattoosRepositoryProps | null>
-  deleteById(id: string): Promise<TattoosRepositoryProps[]>
-  searchMany(query: string, page: number): Promise<TattoosRepositoryProps[]>
-  updateDescriptionTattoById(
-    id: string,
-    description: string
-  ): Promise<TattoosRepositoryProps[]>
-  updateGenreTattoById(
-    id: string,
-    genre: string
-  ): Promise<TattoosRepositoryProps[]>
-  updateImageTattoById(
-    id: string,
-    image: string
-  ): Promise<TattoosRepositoryProps[]>
-  updateTitleTattoById(
-    id: string,
-    title: string
-  ): Promise<TattoosRepositoryProps[]>
+  create(data: Tatto): Promise<Tatto>
+  findById(id: string): Promise<Tatto | null>
+  deleteById(id: string): Promise<Tatto[]>
+  searchMany(query: string, page: number): Promise<Tatto[]>
+  updateDescriptionTattoById(id: string, description: string): Promise<Tatto[]>
+  updateGenreTattoById(id: string, genre: string): Promise<Tatto[]>
+  updateImageTattoById(id: string, image: string): Promise<Tatto[]>
+  updateTitleTattoById(id: string, title: string): Promise<Tatto[]>
 }
