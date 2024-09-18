@@ -18,10 +18,12 @@
   },
   "dependencies": {
     "@biomejs/monorepo": "github:biomejs/biome",
+    "@fastify/jwt": "^9.0.0",
     "@prisma/client": "^5.19.1",
     "ascii-table": "^0.0.9",
     "bcryptjs": "^2.4.3",
     "dotenv": "^16.4.5",
+    "fastify": "^5.0.0",
     "zod": "^3.23.8"
   }
 }
