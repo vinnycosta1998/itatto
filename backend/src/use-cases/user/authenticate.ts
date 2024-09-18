@@ -1,10 +1,8 @@
 import { compare } from 'bcryptjs'
-import type {
-  UsersRepository,
-  UsersRepositoryProps
-} from '../../repositories/users-repository'
+import type { UsersRepository } from '../../repositories/users-repository'
 import { InvalidCredentialsError } from '../../errors/invalid-credentials-error'
 import { UserNotFoundError } from '../../errors/user-not-found-error'
+import type { User } from '@prisma/client'
 
 interface AuthenticateRequestProps {
   email: string
@@ -12,7 +10,7 @@ interface AuthenticateRequestProps {
 }
 
 interface AuthenticateResponseProps {
-  user: UsersRepositoryProps
+  user: User
 }
 
 export class AuthenticateUseCase {

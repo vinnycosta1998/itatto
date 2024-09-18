@@ -1,10 +1,8 @@
 import { hash } from 'bcryptjs'
-import type {
-  UsersRepository,
-  UsersRepositoryProps
-} from '../../repositories/users-repository'
+import type { UsersRepository } from '../../repositories/users-repository'
 import { UserAlreadyExistsError } from '../../errors/user-already-exists-error'
 import { PasswordLenghtError } from '../../errors/password-length-error'
+import type { User } from '@prisma/client'
 
 interface RegisterRequestProps {
   id: string
@@ -16,7 +14,7 @@ interface RegisterRequestProps {
 }
 
 interface RegisterResponseProps {
-  user: UsersRepositoryProps
+  user: User
 }
 
 export class RegisterUseCase {
