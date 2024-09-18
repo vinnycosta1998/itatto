@@ -11,5 +11,5 @@ export async function appRoutes(app: FastifyInstance) {
   app.get('/me', getUserProfile)
 
   // Tatto routes
-  app.post('create-tattoo', createTatto)
+  app.post('/create-tattoo', createTatto)
 }
