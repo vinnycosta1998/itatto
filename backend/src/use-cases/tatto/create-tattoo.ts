@@ -1,12 +1,8 @@
-import { randomUUID } from 'node:crypto'
-import type {
-  TattoosRepository,
-  TattoosRepositoryProps
-} from '../../repositories/tattoos-repository'
+import type { TattoosRepository } from '../../repositories/tattoos-repository'
 import { DescriptionHasLongError } from '../../errors/description-has-long-error'
+import type { Prisma } from '@prisma/client'
 
 interface CreateTattooRequestProps {
-  id: string
   title: string
   description: string
   genre: string
@@ -14,7 +10,7 @@ interface CreateTattooRequestProps {
 }
 
 interface CreateTattooResponseProps {
-  tattoo: TattoosRepositoryProps
+  tattoo: Prisma.TattoCreateInput
 }
 
 export class CreateTattoUseCase {
@@ -33,7 +29,6 @@ export class CreateTattoUseCase {
     }
 
     const tattoo = await this.tattoosRepository.create({
-      id: randomUUID(),
       title,
       description,
       genre,

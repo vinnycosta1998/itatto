@@ -1,6 +1,6 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
-import { makeGetUserProfile } from '../../factories/user/make-get-user-profile-use-case'
+import { makeGetUserProfile } from '../../../factories/user/make-get-user-profile-use-case'
 
 export async function getUserProfile(req: FastifyRequest, res: FastifyReply) {
   const profileBodySchema = z.object({
