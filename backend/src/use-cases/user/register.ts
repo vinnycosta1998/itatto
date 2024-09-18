@@ -2,16 +2,9 @@ import { hash } from 'bcryptjs'
 import type { UsersRepository } from '../../repositories/users-repository'
 import { UserAlreadyExistsError } from '../../errors/user-already-exists-error'
 import { PasswordLenghtError } from '../../errors/password-length-error'
-import type { User } from '@prisma/client'
+import type { Prisma, User } from '@prisma/client'
 
-interface RegisterRequestProps {
-  id: string
-  name: string
-  email: string
-  password: string
-  created_at?: Date
-  updated_at?: Date
-}
+interface RegisterRequestProps extends Prisma.UserCreateInput {}
 
 interface RegisterResponseProps {
   user: User
@@ -39,7 +32,6 @@ export class RegisterUseCase {
     }
 
     const user = await this.usersRepository.create({
-      id,
       name,
       email,
       password: password_hash,
