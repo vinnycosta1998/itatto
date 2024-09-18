@@ -1,7 +1,5 @@
-import type {
-  TattoosRepository,
-  TattoosRepositoryProps
-} from '../../repositories/tattoos-repository'
+import type { TattoosRepository } from '../../repositories/tattoos-repository'
+import type { Prisma } from '@prisma/client'
 
 interface UpdateGenreTattoRequest {
   id: string
@@ -9,7 +7,7 @@ interface UpdateGenreTattoRequest {
 }
 
 interface UpdateGenreTattoResponse {
-  tattoos: TattoosRepositoryProps[]
+  tattoos: Prisma.TattoCreateInput[]
 }
 
 export class UpdateGenreTattoUseCase {

@@ -1,10 +1,10 @@
 import { PrismaTattoosRepository } from '../../repositories/prisma/prisma-tatto-rerpository'
-import { UpdateImageTattoUseCase } from '../../use-cases/tatto/update-image-tatto'
+import { UpdateGenreTattoUseCase } from '../../use-cases/tatto/update-genre-tatto'
 
 export function makeUpdateGenreTattooUseCase() {
   const tattooRepository = new PrismaTattoosRepository()
 
-  const useCase = new UpdateImageTattoUseCase(tattooRepository)
+  const useCase = new UpdateGenreTattoUseCase(tattooRepository)
 
   return useCase
 }
