@@ -42,7 +42,9 @@ export class RegisterUseCase {
       id,
       name,
       email,
-      password: password_hash
+      password: password_hash,
+      createdAt: new Date(),
+      updatedAt: new Date()
     })
 
     return {
