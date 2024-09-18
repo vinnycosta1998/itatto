@@ -2,7 +2,7 @@ import type { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 import { makeDeleteTattooUseCase } from '../../../factories/tattoo/make-delete-tattoo-use-case'
 
-export async function deleteTatto(req: FastifyRequest, res: FastifyReply) {
+export async function deleteTattoo(req: FastifyRequest, res: FastifyReply) {
   const deleteTattooBodySchema = z.object({
     id: z.string()
   })
