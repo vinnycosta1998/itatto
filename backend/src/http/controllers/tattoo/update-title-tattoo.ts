@@ -1,6 +1,6 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
-import { makeUpdateDescriptionTatto } from '../../../factories/tattoo/make-update-description-tattoo-use-case'
+import { makeUpdateTitleTattoo } from '../../../factories/tattoo/make-update-title-tattoo-use-case'
 
 export async function updateDescriptionTattoo(
   req: FastifyRequest,
@@ -8,17 +8,17 @@ export async function updateDescriptionTattoo(
 ) {
   const updateDescriptionTattooBodySchema = z.object({
     id: z.string(),
-    description: z.string().min(2).max(60)
+    title: z.string().min(2).max(60)
   })
 
-  const { id, description } = updateDescriptionTattooBodySchema.parse(req.body)
+  const { id, title } = updateDescriptionTattooBodySchema.parse(req.body)
 
   try {
-    const updateDescriptionTattoUseCase = makeUpdateDescriptionTatto()
+    const updateDescriptionTattoUseCase = makeUpdateTitleTattoo()
 
     await updateDescriptionTattoUseCase.execute({
       id,
-      description
+      title
     })
   } catch (err) {
     console.error(err)

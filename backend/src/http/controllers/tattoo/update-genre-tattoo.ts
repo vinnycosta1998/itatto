@@ -1,6 +1,6 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
-import { makeUpdateGenreTattooUseCase } from '../../../factories/tattoo/make-update-image-tattoo-use-case'
+import { makeUpdateGenreTattoo } from '../../../factories/tattoo/make-update-genre-tattoo-use-case'
 
 export async function updateGenreTattoo(
   req: FastifyRequest,
@@ -14,7 +14,7 @@ export async function updateGenreTattoo(
   const { id, genre } = updateGenreTattooBodySchema.parse(req.body)
 
   try {
-    const updateGenreTattooUseCase = makeUpdateGenreTattooUseCase()
+    const updateGenreTattooUseCase = makeUpdateGenreTattoo()
 
     await updateGenreTattooUseCase.execute({
       id,

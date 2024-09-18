@@ -1,6 +1,6 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
-import { makeSearchManytattoUseCase } from '../../../factories/tattoo/make-search-many-tattoo-use-case'
+import { makeSearchManyTatto } from '../../../factories/tattoo/make-search-many-tattoo-use-case'
 
 export async function SearchManyTattoo(
   req: FastifyRequest,
@@ -14,7 +14,7 @@ export async function SearchManyTattoo(
   const { query, page } = searchmanyTattoBodyschema.parse(req.body)
 
   try {
-    const searchManyTattooUseCase = makeSearchManytattoUseCase()
+    const searchManyTattooUseCase = makeSearchManyTatto()
 
     await searchManyTattooUseCase.execute({ query, page })
   } catch (err) {
