@@ -15,5 +15,5 @@ export async function appRoutes(app: FastifyInstance) {
   // Tatto routes
   app.post('/create-tattoo', createTatto)
   app.delete('/delete-tattoo', deleteTattoo)
-  app.get('/search-tattoo', SearchManyTattoo)
+  app.post('/search-tattoo', SearchManyTattoo)
 }
