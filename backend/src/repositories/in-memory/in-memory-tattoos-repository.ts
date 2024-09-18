@@ -1,13 +1,11 @@
 import { randomUUID } from 'node:crypto'
-import type {
-  TattoosRepository,
-  TattoosRepositoryProps
-} from '../tattoos-repository'
+import type { TattoosRepository } from '../tattoos-repository'
+import type { Prisma } from '@prisma/client'
 
 export class InMemoryTattoosRepository implements TattoosRepository {
-  public items: TattoosRepositoryProps[] = []
+  public items: Prisma.TattoCreateInput[] = []
 
-  async create(data: TattoosRepositoryProps) {
+  async create(data: Prisma.TattoCreateInput) {
     const tattoo = {
       id: randomUUID(),
       title: data.title,
