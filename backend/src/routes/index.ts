@@ -5,6 +5,7 @@ import { getUserProfile } from '../http/controllers/user/get-profile'
 import { createTatto } from '../http/controllers/tattoo/create-tattoo'
 import { deleteTattoo } from '../http/controllers/tattoo/delete-tattoo'
 import { SearchManyTattoo } from '../http/controllers/tattoo/search-many-tattoo'
+import { updateDescriptionTattoo } from '../http/controllers/tattoo/update-description-tatto'
 
 export async function appRoutes(app: FastifyInstance) {
   // User routes
@@ -16,4 +17,5 @@ export async function appRoutes(app: FastifyInstance) {
   app.post('/create-tattoo', createTatto)
   app.delete('/delete-tattoo', deleteTattoo)
   app.post('/search-tattoo', SearchManyTattoo)
+  app.put('/update-description', updateDescriptionTattoo)
 }
