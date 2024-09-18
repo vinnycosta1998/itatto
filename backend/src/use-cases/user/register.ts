@@ -14,7 +14,6 @@ export class RegisterUseCase {
   constructor(private usersRepository: UsersRepository) {}
 
   async execute({
-    id,
     name,
     email,
     password
