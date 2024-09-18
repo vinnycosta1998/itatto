@@ -1,14 +1,12 @@
-import type {
-  TattoosRepository,
-  TattoosRepositoryProps
-} from '../../repositories/tattoos-repository'
+import type { TattoosRepository } from '../../repositories/tattoos-repository'
+import type { Prisma } from '@prisma/client'
 
 interface DeleteTattooRequest {
   id: string
 }
 
 interface DeleteTattoResponse {
-  tattoos: TattoosRepositoryProps[]
+  tattoos: Prisma.TattoCreateInput[]
 }
 
 export class DeleteTattooUseCase {

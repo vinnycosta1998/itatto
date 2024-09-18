@@ -1,7 +1,5 @@
-import type {
-  TattoosRepository,
-  TattoosRepositoryProps
-} from '../../repositories/tattoos-repository'
+import type { Prisma } from '@prisma/client'
+import type { TattoosRepository } from '../../repositories/tattoos-repository'
 
 interface SearchManyRequest {
   query: string
@@ -9,7 +7,7 @@ interface SearchManyRequest {
 }
 
 interface SearchManyResponse {
-  tattoos: TattoosRepositoryProps[]
+  tattoos: Prisma.TattoCreateInput[]
 }
 
 export class SearchManyTattoosUseCase {
