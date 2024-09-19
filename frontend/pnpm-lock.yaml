@@ -27,6 +27,9 @@ importers:
         specifier: ^18
         version: 18.3.1(react@18.3.1)
     devDependencies:
+      '@biomejs/monorepo':
+        specifier: github:biomejs/biome
+        version: https://codeload.github.com/biomejs/biome/tar.gz/33d095898eb28e0f388805167a22755735586b7b
       '@types/node':
         specifier: ^20
         version: 20.16.5
@@ -51,6 +54,10 @@ packages:
   '@alloc/quick-lru@5.2.0':
     resolution: {integrity: sha512-UrcABB+4bUrFABwbluTIBErXwvbsU/V7TZWfmbgJfbkwiBuziS9gxdODUyuiecfdGQ85jglMW6juS3+z5TsKLw==}
     engines: {node: '>=10'}
+
+  '@biomejs/monorepo@https://codeload.github.com/biomejs/biome/tar.gz/33d095898eb28e0f388805167a22755735586b7b':
+    resolution: {tarball: https://codeload.github.com/biomejs/biome/tar.gz/33d095898eb28e0f388805167a22755735586b7b}
+    version: 0.0.0
 
   '@isaacs/cliui@8.0.2':
     resolution: {integrity: sha512-O8jcjabXaleOG9DQ0+ARXWZBTfnP4WNAqzuiJK7ll44AmxGKv/J2M4TPjxjY3znBCfvBXFzucm1twdyFybFqEA==}
@@ -655,6 +662,8 @@ packages:
 snapshots:
 
   '@alloc/quick-lru@5.2.0': {}
+
+  '@biomejs/monorepo@https://codeload.github.com/biomejs/biome/tar.gz/33d095898eb28e0f388805167a22755735586b7b': {}
 
   '@isaacs/cliui@8.0.2':
     dependencies:
