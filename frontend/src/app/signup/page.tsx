@@ -6,7 +6,7 @@ const poppinsMono = Poppins({
   subsets: ["latin"],
 });
 
-export default function SignIn() {
+export default function SignUp() {
   return (
     <div className="w-full h-[100vh] bg-black flex justify-between">
       <div className="w-[50%] h-full">
@@ -26,7 +26,18 @@ export default function SignIn() {
               Crie a sua conta
             </h1>
           </div>
+
           <div className="flex flex-col gap-4 bg-transparent backdrop-blur-xl">
+            <label htmlFor="name" className="font-bold text-white">
+              Nome
+            </label>
+            <input
+              id="name"
+              type="text"
+              placeholder="Digite o seu nome"
+              className="w-[30rem] h-12 rounded-md outline-none px-2 bg-gray-950 text-zinc-400 backdrop-blur-3xl"
+            />
+
             <label htmlFor="email" className="font-bold text-white">
               Email
             </label>
@@ -47,12 +58,22 @@ export default function SignIn() {
               className="w-[30rem] h-12 rounded-md outline-none px-2 bg-gray-950 text-zinc-400 backdrop-blur-3xl"
             />
 
+            <label htmlFor="password-confirm" className="font-bold text-white">
+              Confirme a Senha
+            </label>
+            <input
+              id="password-confirm"
+              type="password"
+              placeholder="Confirme a sua senha"
+              className="w-[30rem] h-12 rounded-md outline-none px-2 bg-gray-950 text-zinc-400 backdrop-blur-3xl"
+            />
+
             <button className="w-[30rem] h-12 rounded-lg cursor-pointer bg-gray-900 text-zinc-400">
-              Entrar
+              Cadastre-se
             </button>
             <div className="w-full flex justify-center">
-              <Link href="/signup" className="text-zinc-400">
-                Não possui uma conta? <u>Clique aqui e cadastre-se</u>
+              <Link href="/signin" className="text-zinc-400">
+                Já possui uma conta? <u>Clique aqui</u>
               </Link>
             </div>
           </div>
