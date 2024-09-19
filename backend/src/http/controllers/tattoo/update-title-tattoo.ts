@@ -2,7 +2,7 @@ import type { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 import { makeUpdateTitleTattoo } from '../../../factories/tattoo/make-update-title-tattoo-use-case'
 
-export async function updateDescriptionTattoo(
+export async function updateTitleTattoo(
   req: FastifyRequest,
   res: FastifyReply
 ) {
