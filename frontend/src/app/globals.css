@@ -2,3 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+    .neon-text {
+      color: #fff; /* Cor principal do texto */
+      text-shadow: 
+        0 0 5px #fff,    /* Brilho mais próximo */
+        0 0 10px #fff,   /* Brilho secundário */
+        0 0 20px #ffffff10, /* Brilho de cor neon */
+        0 0 30px #ffffff10, 
+        0 0 40px #ffffff30,
+        0 0 50px #ffffff40,
+        0 0 60px #ffffff50;
+    }
+}
