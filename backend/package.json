@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "@biomejs/monorepo": "github:biomejs/biome",
+    "@fastify/cors": "^10.0.0",
     "@fastify/jwt": "^9.0.0",
     "@prisma/client": "^5.19.1",
     "ascii-table": "^0.0.9",

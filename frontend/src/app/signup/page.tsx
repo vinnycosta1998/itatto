@@ -5,50 +5,90 @@ import { Poppins } from "@next/font/google";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { api } from "@/lib/axios";
+import { useState } from "react";
+import { toast } from "sonner";
 
 const poppinsMono = Poppins({
   weight: "400",
   subsets: ["latin"],
 });
 
+// Validação usando Zod, incluindo confirmação de senha
 const signUpBodySchema = z
   .object({
-    name: z.string().min(2, "O nome deve conter no minímo 2 caractheres"),
+    name: z.string().min(2, "O nome deve conter no mínimo 2 caracteres"),
     email: z.string().email("Email inválido"),
     password: z
       .string()
-      .min(8, "A senha deve conter no mibnimo 8 carachteres")
-      .max(14, "A senha deve conter no maximo 14 caractheres"),
+      .min(8, "A senha deve conter no mínimo 8 caracteres")
+      .max(14, "A senha deve conter no máximo 14 caracteres"),
     password_confirmation: z
       .string()
-      .min(8, "A senha deve conter no mibnimo 8 carachteres")
-      .max(14, "A senha deve conter no maximo 14 caractheres"),
+      .min(8, "A senha deve conter no mínimo 8 caracteres")
+      .max(14, "A senha deve conter no máximo 14 caracteres"),
   })
   .refine((data) => data.password === data.password_confirmation, {
-    message: "As senha não se coincidem",
+    message: "As senhas precisam ser iguais",
     path: ["password_confirmation"],
   });
 
 type SignUpFormData = z.infer<typeof signUpBodySchema>;
 
-export default async function SignUp() {
+export default function SignUp() {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<SignUpFormData>({ resolver: zodResolver(signUpBodySchema) });
 
+  const [loading, setLoading] = useState(false);
+  const [apiError, setApiError] = useState<string | null>(null);
+
+  // Função que chama a API sem usar async/await diretamente
+  function handleRegisterUser(data: SignUpFormData) {
+    setLoading(true);
+    setApiError(null);
+
+    // Uso de fetch com then/catch em vez de async/await
+    fetch("http://localhost:3333/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: data.name,
+        email: data.email,
+        password: data.password,
+      }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          toast.error("Não foi possivel cadastrar o usúario");
+        }
+        return response.json();
+      })
+      .then((result) => {
+        toast.success("Usúario cadastrado com sucesso");
+      })
+      .catch((error) => {
+        setApiError(
+          error.message || "Erro inesperado ao tentar cadastrar o usuário"
+        );
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }
+
   return (
     <div className="w-full h-[100vh] bg-black flex justify-between">
       <div className="w-[50%] h-full">
-        <video autoPlay={true} loop={true} muted className="w-full h-full">
+        <video autoPlay loop muted className="w-full h-full">
           <source src="/video-3.mp4" type="video/mp4" />
         </video>
       </div>
       <div className="w-[50%]">
         <form
-          action=""
           className="w-full h-full flex flex-col items-center justify-center gap-8"
           onSubmit={handleSubmit(handleRegisterUser)}
         >
@@ -71,10 +111,10 @@ export default async function SignUp() {
               className="w-[30rem] h-12 rounded-md outline-none px-2 bg-gray-950 text-zinc-400 backdrop-blur-3xl"
               {...register("name")}
             />
-
             {errors.name && (
               <span className="text-red-400">{errors.name.message}</span>
             )}
+
             <label htmlFor="email" className="font-bold text-white">
               Email
             </label>
@@ -88,6 +128,7 @@ export default async function SignUp() {
             {errors.email && (
               <span className="text-red-400">{errors.email.message}</span>
             )}
+
             <label htmlFor="password" className="font-bold text-white">
               Senha
             </label>
@@ -101,6 +142,7 @@ export default async function SignUp() {
             {errors.password && (
               <span className="text-red-400">{errors.password.message}</span>
             )}
+
             <label htmlFor="password-confirm" className="font-bold text-white">
               Confirme a Senha
             </label>
@@ -116,8 +158,15 @@ export default async function SignUp() {
                 {errors.password_confirmation.message}
               </span>
             )}
-            <button className="w-[30rem] h-12 rounded-lg cursor-pointer bg-gray-900 text-zinc-400">
-              Cadastre-se
+
+            {/* Mostrar erro da API se houver */}
+            {apiError && <span className="text-red-400">{apiError}</span>}
+
+            <button
+              className="w-[30rem] h-12 rounded-lg cursor-pointer bg-gray-900 text-zinc-400"
+              disabled={loading}
+            >
+              {loading ? "Cadastrando..." : "Cadastre-se"}
             </button>
             <div className="w-full flex justify-center">
               <Link href="/signin" className="text-zinc-400">
