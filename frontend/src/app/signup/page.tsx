@@ -5,33 +5,34 @@ import { Poppins } from "@next/font/google";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { span } from "framer-motion/client";
+import { api } from "@/lib/axios";
 
 const poppinsMono = Poppins({
   weight: "400",
   subsets: ["latin"],
 });
 
-const signUpBodySchema = z.object({
-  name: z.string().min(2, "O nome deve conter no minímo 2 caractheres"),
-  email: z.string().email("Email inválido"),
-  password: z
-    .string()
-    .min(8, "A senha deve conter no mibnimo 8 carachteres")
-    .max(14, "A senha deve conter no maximo 14 caractheres"),
-  password_confirmation: z
-    .string()
-    .min(8, "A senha deve conter no mibnimo 8 carachteres")
-    .max(14, "A senha deve conter no maximo 14 caractheres"),
-});
+const signUpBodySchema = z
+  .object({
+    name: z.string().min(2, "O nome deve conter no minímo 2 caractheres"),
+    email: z.string().email("Email inválido"),
+    password: z
+      .string()
+      .min(8, "A senha deve conter no mibnimo 8 carachteres")
+      .max(14, "A senha deve conter no maximo 14 caractheres"),
+    password_confirmation: z
+      .string()
+      .min(8, "A senha deve conter no mibnimo 8 carachteres")
+      .max(14, "A senha deve conter no maximo 14 caractheres"),
+  })
+  .refine((data) => data.password === data.password_confirmation, {
+    message: "As senha não se coincidem",
+    path: ["password_confirmation"],
+  });
 
 type SignUpFormData = z.infer<typeof signUpBodySchema>;
 
-async function handleRegisterUser(data: SignUpFormData) {
-  console.log(data);
-}
-
-export default function SignUp() {
+export default async function SignUp() {
   const {
     register,
     handleSubmit,
