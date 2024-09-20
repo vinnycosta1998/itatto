@@ -13,7 +13,6 @@ const poppinsMono = Poppins({
   subsets: ["latin"],
 });
 
-// Validação usando Zod, incluindo confirmação de senha
 const signUpBodySchema = z
   .object({
     name: z.string().min(2, "O nome deve conter no mínimo 2 caracteres"),
@@ -49,7 +48,6 @@ export default function SignUp() {
     setLoading(true);
     setApiError(null);
 
-    // Uso de fetch com then/catch em vez de async/await
     fetch("http://localhost:3333/register", {
       method: "POST",
       headers: {
@@ -63,12 +61,14 @@ export default function SignUp() {
     })
       .then((response) => {
         if (!response.ok) {
-          toast.error("Não foi possivel cadastrar o usúario");
+          if (response.status === 409) {
+            toast.warning("Usúario já cadastrado no sistema");
+          }
         }
-        return response.json();
+        return response;
       })
       .then((result) => {
-        toast.success("Usúario cadastrado com sucesso");
+        console.log(result);
       })
       .catch((error) => {
         setApiError(

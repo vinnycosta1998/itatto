@@ -69,8 +69,8 @@ export default function Home() {
               </motion.div>
             ))}
           </div>
-          <Link href="/signin" className="text-zinc-500">
-            Clique aqui e cadastre-se
+          <Link href="/signup" className="text-zinc-500">
+            <u>Clique aqui</u> e cadastre-se
           </Link>
         </div>
       </div>

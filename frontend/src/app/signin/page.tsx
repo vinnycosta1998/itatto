@@ -5,6 +5,8 @@ import { Poppins } from "@next/font/google";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
+import { toast } from "sonner";
 
 // Configurando a fonte Poppins
 const poppinsMono = Poppins({
@@ -12,20 +14,20 @@ const poppinsMono = Poppins({
   subsets: ["latin"],
 });
 
-// Esquema de validação do Zod
 const signInBodySchema = z.object({
-  email: z.string().email("Email inválido"), // Mensagem personalizada para erro de email
+  email: z.string().email("Email inválido"),
   password: z
     .string()
     .min(8, "A senha deve conter no mibnimo 8 carachteres")
     .max(14, "A senha deve conter no maximo 14 caractheres"),
 });
 
-// Definindo o tipo do formulário com base no esquema Zod
 type SignInFormData = z.infer<typeof signInBodySchema>;
 
 export default function SignIn() {
-  // Configurando o useForm com validação via zodResolver
+  const [loading, setLoading] = useState(false);
+  const [apiError, setApiError] = useState<string | null>(null);
+
   const {
     register,
     handleSubmit,
@@ -34,10 +36,37 @@ export default function SignIn() {
     resolver: zodResolver(signInBodySchema),
   });
 
-  const onSubmit = (data: SignInFormData) => {
-    console.log(data);
-    // Adicione aqui a lógica de envio dos dados, como uma requisição API
-  };
+  function handleSignInUser(data: SignInFormData) {
+    setLoading(true);
+    fetch("http://localhost:3333/authenticate", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: data.email,
+        password: data.password,
+      }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          if (response.status === 400) {
+            toast.warning("Email ou senha incorretos");
+          }
+        }
+      })
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((err) => {
+        setApiError(
+          err.message || "Erro inesperado ao tentar autenticar usuario"
+        );
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }
 
   return (
     <div className="w-full h-[100vh] bg-black flex justify-between">
@@ -49,7 +78,7 @@ export default function SignIn() {
 
       <div className="w-[50%]">
         <form
-          onSubmit={handleSubmit(onSubmit)} // Configuração do submit
+          onSubmit={handleSubmit(handleSignInUser)}
           className="w-full h-full flex flex-col items-center justify-center gap-8"
         >
           <div>
@@ -92,6 +121,7 @@ export default function SignIn() {
             <button
               type="submit"
               className="w-[30rem] h-12 rounded-lg cursor-pointer bg-gray-900 text-zinc-400"
+              disabled={loading}
             >
               Entrar
             </button>
