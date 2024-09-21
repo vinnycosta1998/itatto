@@ -8,6 +8,10 @@ import { toast } from "sonner";
 import { useDropzone } from "react-dropzone";
 import { PlusCircle } from "lucide-react";
 
+interface ModalProps {
+  modalIsOpen: boolean;
+}
+
 // Esquema de validação Zod
 const createTatooFormSchema = z.object({
   title: z
@@ -23,7 +27,7 @@ const createTatooFormSchema = z.object({
 
 type CreateTattooData = z.infer<typeof createTatooFormSchema>;
 
-export function Modal() {
+export function Modal({ modalIsOpen }: ModalProps) {
   const [loading, setLoading] = useState(false);
   const [apiError, setApiError] = useState<null | string>(null);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
@@ -89,7 +93,7 @@ export function Modal() {
   }
 
   return (
-    <div className="w-[26rem] h-[36rem] bg-zinc-900 absolute top-[20%] left-[42%] rounded-lg flex flex-col items-center">
+    <div className="w-[30rem] h-[42rem] bg-zinc-900 absolute top-[20%] left-[42%] rounded-lg flex flex-col items-center justify-center">
       <header className="w-full h-8 flex justify-end items-center px-4 py-6 text-red-400 gap-2">
         <button className="w-3 h-3 rounded-full bg-red-400"></button>
         <button className="w-3 h-3 rounded-full bg-yellow-400"></button>
@@ -97,7 +101,7 @@ export function Modal() {
       </header>
 
       <form
-        className="w-full h-full flex flex-col items-center gap-2"
+        className="w-full h-full flex flex-col items-center gap-2 mt-8"
         onSubmit={handleSubmit(handleCreateTattoo)} // Formulário correto
       >
         <div>
@@ -178,7 +182,7 @@ export function Modal() {
 
         <button
           type="submit"
-          className="w-[16rem] h-8 bg-green-500 text-white rounded-md mt-6"
+          className="w-[16rem] h-8 bg-green-800 font-bold text-white rounded-md mt-6"
           disabled={loading}
         >
           {loading ? "Enviando..." : "Cadastrar"}
