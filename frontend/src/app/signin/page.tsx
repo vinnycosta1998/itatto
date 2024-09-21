@@ -18,7 +18,7 @@ const signInBodySchema = z.object({
   email: z.string().email("Email inválido"),
   password: z
     .string()
-    .min(8, "A senha deve conter no mibnimo 8 carachteres")
+    .min(8, "A senha deve conter no minimo 8 carachteres")
     .max(14, "A senha deve conter no maximo 14 caractheres"),
 });
 

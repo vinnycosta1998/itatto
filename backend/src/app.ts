@@ -1,22 +1,34 @@
 import fastify from 'fastify'
 import cors from '@fastify/cors'
+import fastifyJwt from '@fastify/jwt'
+import multipart from '@fastify/multipart'
+
 import { env } from './env'
 import { ZodError } from 'zod'
 import { appRoutes } from './routes'
-import fastifyJwt from '@fastify/jwt'
 
-export const app = fastify()
+export const app = fastify({
+  logger: true
+})
 
-app.register(appRoutes)
 
 app.register(cors, {
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'Accept', 'Origin', 'X-Requested-With'],
+  allowedHeaders: ['Content-Type', 'Authorization',]
 })
 
 app.register(fastifyJwt, {
   secret: env.JWT_SECRET
 })
+
+app.register(multipart, {
+  limits: {
+    files: 1,
+    fileSize: 300000
+  }
+})
+
+app.register(appRoutes)
 
 app.setErrorHandler((error, _request, reply) => {
   if (error instanceof ZodError) {

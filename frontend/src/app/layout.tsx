@@ -16,7 +16,7 @@ const geistMono = localFont({
   weight: "100 900",
 });
 
-const poppinsMono = Poppins({
+export const poppinsMono = Poppins({
   weight: "400",
   subsets: ["latin"],
 });
