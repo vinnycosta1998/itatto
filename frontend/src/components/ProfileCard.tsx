@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Separator } from "./Separator";
 
 export function ProfileCard() {
   return (
@@ -6,6 +7,7 @@ export function ProfileCard() {
       <div className="text-white">
         <Link href="#">Minha conta</Link>
       </div>
+      <Separator />
       <div className="text-red-400">
         <button>Fazer logout</button>
       </div>
