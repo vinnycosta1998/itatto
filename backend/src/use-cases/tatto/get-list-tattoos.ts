@@ -1,5 +1,6 @@
 import { Prisma } from "@prisma/client"
 import { TattoosRepository } from "../../repositories/tattoos-repository"
+import { EmpytListTattoosError } from "../../errors/empyt-list-tattos-error"
 
 interface GetListTattooRequest{
     id: string
@@ -17,7 +18,7 @@ export class GetListTattooUseCase{
         const tattoos = await this.tattooRepository.findMany(id)
 
         if(!tattoos){
-            throw new Error("Your list the tattos is empyt")
+           throw new EmpytListTattoosError()
         }
 
         return {
