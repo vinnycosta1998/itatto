@@ -1,11 +1,11 @@
-import type { Prisma } from '@prisma/client'
+import type { Prisma, Tatto } from '@prisma/client'
 
 export interface TattoosRepository {
-  create(data: Prisma.TattoCreateInput): Promise<Prisma.TattoCreateInput>
-  findById(id: string): Promise<Prisma.TattoCreateInput | null>
-  findMany(id: string): Promise<Prisma.TattoCreateInput[] | null>
-  deleteById(id: string): Promise<Prisma.TattoCreateInput[]>
-  searchMany(query: string, page: number): Promise<Prisma.TattoCreateInput[]>
+  create(data: Prisma.TattoCreateInput): Promise<Tatto>
+  findById(id: string): Promise<Tatto | null>
+  findManyByUserId(userId: string, page:number): Promise<Tatto[] | null>
+  deleteById(id: string): Promise<Tatto[]>
+  searchMany(query: string, page: number): Promise<Tatto[]>
   updateDescriptionTattoById(
     id: string,
     description: string

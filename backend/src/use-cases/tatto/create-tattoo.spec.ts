@@ -3,13 +3,13 @@ import { CreateTattoUseCase } from './create-tattoo'
 import { InMemoryTattoosRepository } from '../../repositories/in-memory/in-memory-tattoos-repository'
 import { DescriptionHasLongError } from '../../errors/description-has-long-error'
 
-let tattooRepository: InMemoryTattoosRepository
+let tattoosRepository: InMemoryTattoosRepository
 let sut: CreateTattoUseCase
 
 describe('Create tattoo test', () => {
   beforeEach(() => {
-    tattooRepository = new InMemoryTattoosRepository()
-    sut = new CreateTattoUseCase(tattooRepository)
+    tattoosRepository = new InMemoryTattoosRepository()
+    sut = new CreateTattoUseCase(tattoosRepository)
   })
 
   it('should be able to create tatto', async () => {

@@ -1,17 +1,20 @@
 import { randomUUID } from 'node:crypto'
 import type { TattoosRepository } from '../tattoos-repository'
-import type { Prisma } from '@prisma/client'
+import type { Prisma, Tatto } from '@prisma/client'
 
 export class InMemoryTattoosRepository implements TattoosRepository {
-  public items: Prisma.TattoCreateInput[] = []
+  public items: Tatto[] = []
 
-  async create(data: Prisma.TattoCreateInput) {
+  async create(data: Tatto) {
     const tattoo = {
       id: randomUUID(),
       title: data.title,
       description: data.description,
       genre: data.genre,
-      image: data.image
+      image: data.image,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      user_id: 'user_id'
     }
 
     this.items.push(tattoo)
@@ -29,14 +32,10 @@ export class InMemoryTattoosRepository implements TattoosRepository {
     return tattoo
   }
 
-  async findMany(id: string){
-    const tattoos = this.items.find(item => item)
-
-    if(!tattoos){
-      return null
-    }
-
-    return tattoos
+  async findManyByUserId(userId: string, page: number) {
+    return this.items
+      .filter((item) => item.user_id === userId)
+      .slice((page - 1) * 20, page * 20)
   }
 
   async deleteById(id: string) {

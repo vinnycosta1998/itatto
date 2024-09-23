@@ -1,21 +1,22 @@
-import { Prisma } from "@prisma/client"
+import { Tatto } from "@prisma/client"
 import { TattoosRepository } from "../../repositories/tattoos-repository"
 import { EmpytListTattoosError } from "../../errors/empyt-list-tattos-error"
 
 interface GetListTattooRequest{
-    id: string
+    userId: string
+    page: number
 }
 
 interface GetListTattooResponse{
-    tattoos: Prisma.TattoCreateInput[]
+    tattoos: Tatto[]
 }
 
 
 export class GetListTattooUseCase{
     constructor(private tattooRepository: TattoosRepository){}
 
-    async execute({id } : GetListTattooRequest): Promise<GetListTattooResponse>{
-        const tattoos = await this.tattooRepository.findMany(id)
+    async execute({ userId, page } : GetListTattooRequest): Promise<GetListTattooResponse>{
+        const tattoos = await this.tattooRepository.findManyByUserId(userId, page)
 
         if(!tattoos){
            throw new EmpytListTattoosError()

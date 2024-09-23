@@ -3,17 +3,17 @@ import { beforeEach, describe, it, expect } from 'vitest'
 import { InMemoryTattoosRepository } from '../../repositories/in-memory/in-memory-tattoos-repository'
 import { UpdateGenreTattoUseCase } from './update-genre-tatto'
 
-let tattoRepository: InMemoryTattoosRepository
+let tattoosRepository: InMemoryTattoosRepository
 let sut: UpdateGenreTattoUseCase
 
 describe('Update genre tatto test', () => {
   beforeEach(() => {
-    tattoRepository = new InMemoryTattoosRepository()
-    sut = new UpdateGenreTattoUseCase(tattoRepository)
+    tattoosRepository = new InMemoryTattoosRepository()
+    sut = new UpdateGenreTattoUseCase(tattoosRepository)
   })
 
   it('should be able to update genre the tatto by id', async () => {
-    const tattoo = await tattoRepository.create({
+    const tattoo = await tattoosRepository.create({
       id: randomUUID(),
       title: 'Lion hand tatto',
       description: 'Tattoo in hand',
