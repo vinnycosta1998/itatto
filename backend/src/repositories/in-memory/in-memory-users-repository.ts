@@ -38,4 +38,10 @@ export class InMemoryUsersRepository implements UsersRepository {
 
     return user
   }
+
+  async updatePassword(email:string, newPassword: string){
+    const user = this.items.map(item => item.email === email ? {...item, password:newPassword} : item)
+
+    return user
+  }
 }
