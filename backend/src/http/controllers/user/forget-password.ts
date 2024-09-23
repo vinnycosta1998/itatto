@@ -13,9 +13,13 @@ export async function forgetPassword(req: FastifyRequest, res:FastifyReply){
     try{
         const forgetPasswordUseCase = makeForgetPassword()
 
-        await forgetPasswordUseCase.execute({
+        const user = await forgetPasswordUseCase.execute({
             email
         })
+
+        if(user){
+            
+        }
     }catch(err){
         if(err instanceof UserNotFoundError){
             return res.status(404).send({
