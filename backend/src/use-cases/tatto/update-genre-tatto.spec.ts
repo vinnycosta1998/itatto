@@ -18,7 +18,10 @@ describe('Update genre tatto test', () => {
       title: 'Lion hand tatto',
       description: 'Tattoo in hand',
       genre: 'Abstract',
-      image: 'lion-tattoo.png'
+      image: 'lion-tattoo.png',
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      user_id: 'user_id'
     })
 
     const { tattoos } = await sut.execute({

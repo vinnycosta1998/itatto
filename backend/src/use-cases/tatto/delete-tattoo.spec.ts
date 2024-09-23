@@ -18,7 +18,10 @@ describe('Delete tatto use case', () => {
       title: 'Lion hand tatto',
       description: 'Tattoo in hand',
       genre: 'Abstract',
-      image: 'lion-tattoo.png'
+      image: 'lion-tattoo.png',
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      user_id: 'user_id'
     })
 
     await expect(() => sut.execute({ id: tatto.id })).toHaveLength(0)

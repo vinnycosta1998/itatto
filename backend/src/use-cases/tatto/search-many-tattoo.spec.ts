@@ -18,7 +18,9 @@ describe('Search many tattoos use case', () => {
       title: 'Lion hand tatto',
       description: 'Tattoo in hand',
       genre: 'Abstract',
-      image: 'lion-tattoo.png'
+      image: 'lion-tattoo.png',createdAt: new Date(),
+      updatedAt: new Date(),
+      user_id: 'user_id'
     })
 
     await tattoosRepository.create({
@@ -26,7 +28,10 @@ describe('Search many tattoos use case', () => {
       title: 'Bear hand tatto',
       description: 'Tattoo in hand',
       genre: 'Abstract',
-      image: 'bear-tattoo.png'
+      image: 'bear-tattoo.png',
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      user_id: 'user_id'
     })
 
     const { tattoos } = await sut.execute({
