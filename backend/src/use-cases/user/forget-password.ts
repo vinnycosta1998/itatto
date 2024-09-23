@@ -10,7 +10,7 @@ interface ForgetPasswordResponse{
     user: User
 }
 
-export class Forgetpassword{
+export class ForgetPasswordUseCase{
     constructor(private usersRepository: UsersRepository){}
 
     async execute({email} : ForgetPasswordRequest): Promise<ForgetPasswordResponse>{
