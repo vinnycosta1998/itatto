@@ -19,11 +19,23 @@ export class PrismaTattoosRepository implements TattoosRepository {
   async findById(id: string) {
     const tattoo = await prisma.tatto.findFirst({
       where: {
-        userId: id
+        user_id: id
       }
     })
 
     return tattoo
+  }
+
+  async findManyByUserId(userId: string, page: number){
+    const tattoos = await prisma.tatto.findMany({
+      where:{
+        user_id: userId
+      },
+      take: 20,
+      skip: (page - 1) * 20,
+    })
+
+    return tattoos
   }
 
   async deleteById(id: string) {
