@@ -6,11 +6,19 @@ import multipart from '@fastify/multipart'
 import { env } from './env'
 import { ZodError } from 'zod'
 import { appRoutes } from './routes'
+import {fastifyStatic} from '@fastify/static'
+import path from 'path'
 
 export const app = fastify({
   logger: true
 })
+// add .. from out src
+app.register(fastifyStatic, {
+  root: path.join(__dirname, 'public'),
+  prefix: '/public/',
+})
 
+console.log(path.join(__dirname, 'public'))
 
 app.register(cors, {
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'Accept', 'Origin', 'X-Requested-With'],

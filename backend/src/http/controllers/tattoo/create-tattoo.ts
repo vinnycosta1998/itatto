@@ -27,7 +27,7 @@ export async function createTattoo(req: FastifyRequest, res: FastifyReply) {
       if (part.type === 'file') {
         // Tratando os arquivos do FormData
         if (part.file && part.filename) {
-          const filePath = `./uploads/${part.filename}`;
+          const filePath = `./src/public/${part.filename}`;
           imagePath = filePath;
           await pump(part.file, fs.createWriteStream(filePath));
         }
@@ -54,10 +54,8 @@ export async function createTattoo(req: FastifyRequest, res: FastifyReply) {
       throw new UploadImageError();
     }
 
-    // Criando instância do caso de uso
     const createTattooUseCase = makeCreateTattoo();
 
-    // Executa o caso de uso com os dados e o caminho da imagem
     await createTattooUseCase.execute({
       title,
       description,

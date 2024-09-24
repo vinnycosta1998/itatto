@@ -11,7 +11,6 @@ export async function getListTattoo(req: FastifyRequest, res:FastifyReply){
     })
     
     const { userId, page } = getListTattooBodySchema.parse(req.body)
-    console.log('Request Body:', req.body);
 
     try{
         const getListTattooUseCase = makeGetListTattoo()
@@ -21,7 +20,7 @@ export async function getListTattoo(req: FastifyRequest, res:FastifyReply){
             page
         })
 
-        return res.status(200).send({
+        return res.status(201).send({
             tattoos
         });
     }catch(err){

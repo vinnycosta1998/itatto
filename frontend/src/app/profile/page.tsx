@@ -47,7 +47,7 @@ export default function Profile() {
           </div>
           <input
             type="text"
-            className="w-[26rem] h-12 bg-zinc-900 px-2 rounded-md outline-none"
+            className="w-[26rem] h-12 bg-zinc-900 px-2 rounded-md outline-none placeholder:text-zinc-600"
             placeholder="Vinicius Costa de Almeida"
             readOnly
           />
@@ -56,7 +56,7 @@ export default function Profile() {
           </div>
           <input
             type="text"
-            className="w-[26rem] h-12 bg-zinc-900 px-2 rounded-md outline-none"
+            className="w-[26rem] h-12 bg-zinc-900 px-2 rounded-md outline-none  placeholder:text-zinc-600"
             placeholder="viniciuscostadealmeida98@gmail.com"
             readOnly
           />

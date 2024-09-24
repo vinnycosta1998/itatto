@@ -28,4 +28,7 @@ export async function appRoutes(app: FastifyInstance) {
   app.put('/update-image', updateImageTattoo)
   app.put('/update-title', updateTitleTattoo)
   app.post('/list-tattoos', getListTattoo)
+  app.get('/images', (req, res) => {
+    res.sendFile('image.jpeg')
+  })
 }
