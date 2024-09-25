@@ -1,17 +1,18 @@
 import { randomUUID } from "node:crypto";
-import { beforeEach, describe, expect, it } from "vitest";
-import { InMemoryUsersRepository } from "../../repositories/in-memory/in-memory-users-repository";
-import { ForgetPasswordUseCase } from "./forget-password";
-import { PasswordLenghtError } from "../../errors/password-length-error";
 import { compare } from "bcryptjs";
+import { beforeEach, describe, expect, it } from "vitest";
+
+import { InMemoryUsersRepository } from "../../repositories/in-memory/in-memory-users-repository";
+import { PasswordLenghtError } from "../../errors/password-length-error";
+import { UpdatePasswordUseCase } from "./update-password";
 
 let usersRepository: InMemoryUsersRepository;
-let sut: ForgetPasswordUseCase;
+let sut: UpdatePasswordUseCase;
 
-describe("Forget password test", () => {
+describe("Update password test", () => {
   beforeEach(() => {
     (usersRepository = new InMemoryUsersRepository()),
-      (sut = new ForgetPasswordUseCase(usersRepository));
+      (sut = new UpdatePasswordUseCase(usersRepository));
   });
 
   it("should be able to update password", async () => {
@@ -22,12 +23,12 @@ describe("Forget password test", () => {
       password: "12345678",
     });
 
-    const { updatePasswordUser } = await sut.execute({
+    const { updatedPasswordUser } = await sut.execute({
       email: createdUser.email,
       newPassword: "abcdefgh",
     });
 
-    const user = updatePasswordUser.find(
+    const user = updatedPasswordUser.find(
       (item) => item.email === createdUser.email,
     );
 

@@ -2,6 +2,7 @@ import { User } from "@prisma/client";
 import { UsersRepository } from "../../repositories/users-repository";
 import { UserNotFoundError } from "../../errors/user-not-found-error";
 import { PasswordLenghtError } from "../../errors/password-length-error";
+import { hash } from "bcryptjs";
 
 interface UpdatePasswordRequest {
   email: string;
@@ -29,9 +30,11 @@ export class UpdatePasswordUseCase {
       throw new PasswordLenghtError();
     }
 
+    const password_hash = await hash(newPassword, 6);
+
     const updatedPasswordUser = await this.usersRepository.updatePassword(
       email,
-      newPassword,
+      password_hash,
     );
 
     return {
