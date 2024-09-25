@@ -3,6 +3,7 @@
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
 
 const updateProfileBodySchema = z
   .object({
@@ -31,16 +32,13 @@ export default function Profile() {
     resolver: zodResolver(updateProfileBodySchema),
   });
 
-  function handleUpdateUser(data: UpdateProfileData) {
+  function handleUpdatePassword(data: UpdateProfileData) {
     console.log(data);
   }
   return (
     <div className="w-screen h-screen bg-black flex flex-col items-center justify-center">
       <div className="w-[30rem] h-[40rem] rounded-lg">
-        <form
-          className="w-full h-full flex flex-col items-center gap-4 text-zinc-400"
-          onSubmit={handleSubmit(handleUpdateUser)}
-        >
+        <form className="w-full h-full flex flex-col items-center gap-4 text-zinc-400">
           <h1 className="text-4xl neon-text">Altere os seus dados </h1>
           <div className="w-[26rem] flex justify-start">
             <label className="font-bold text-white">Nome</label>
@@ -51,6 +49,7 @@ export default function Profile() {
             placeholder="Vinicius Costa de Almeida"
             readOnly
           />
+
           <div className="w-[26rem] flex justify-start">
             <label className="font-bold text-white">Email</label>
           </div>
@@ -89,6 +88,10 @@ export default function Profile() {
           <button className="w-[26rem] h-12 bg-zinc-900 font-bold text-white rounded-md">
             Alterar dados
           </button>
+
+          <Link href="/dashboard" className="font-bold text-white mt-8">
+            Volte para o início
+          </Link>
         </form>
       </div>
     </div>

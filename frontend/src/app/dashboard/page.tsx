@@ -1,4 +1,5 @@
 "use client";
+
 import { useState } from "react";
 import { Header } from "@/components/Header";
 import { TattooCard } from "@/components/TattooCard";
@@ -7,8 +8,21 @@ import { useEffect } from "react";
 import Autoplay from "embla-carousel-autoplay";
 import { toast } from "sonner";
 
+interface TattooProps {
+  id: string;
+  title: string;
+  description: string;
+  genre: string;
+  image: string;
+  createdAt: Date;
+  updatedAt: Date;
+  user_id: string;
+}
+[];
+
 export default function Dashboard() {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [tattoos, setTattoos] = useState<TattooProps[]>([]);
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false }, [Autoplay()]);
 
   function fetchTattoData() {
@@ -30,14 +44,14 @@ export default function Dashboard() {
         return response.json();
       })
       .then((result) => {
-        console.log(result);
-        console.log(result.result);
+        setTattoos(result.tattoos.tattoos);
+        console.log(result.tattoos.tattoos);
       })
       .catch((err) => {
         console.error(err);
       })
       .finally(() => {
-        setLoading(false);
+        setLoading(true);
       });
   }
 
@@ -57,42 +71,15 @@ export default function Dashboard() {
           </div>
           <div className="embla fixed" ref={emblaRef}>
             <div className="embla__container flex gap-2 relative">
-              <TattooCard />
-              <TattooCard />
-              <TattooCard />
-              <TattooCard />
-              <TattooCard />
-              <TattooCard />
-              <TattooCard />
-              <TattooCard />
-              <TattooCard />
-              <TattooCard />
-              <TattooCard />
-              <TattooCard />
-              <TattooCard />
-              <TattooCard />
-              <TattooCard />
-              <TattooCard />
-              <TattooCard />
-              <TattooCard />
-              <TattooCard />
-              <TattooCard />
-              <TattooCard />
-              <TattooCard />
-              <TattooCard />
-              <TattooCard />
-              <TattooCard />
-              <TattooCard />
-              <TattooCard />
-              <TattooCard />
-              <TattooCard />
-              <TattooCard />
-              <TattooCard />
-              <TattooCard />
-              <TattooCard />
-              <TattooCard />
-              <TattooCard />
-              <TattooCard />
+              {tattoos.map((tattoo) => {
+                return (
+                  <TattooCard
+                    key={tattoo.id}
+                    tattooImg={tattoo.image}
+                    isLoading={loading}
+                  />
+                );
+              })}
             </div>
           </div>
         </main>

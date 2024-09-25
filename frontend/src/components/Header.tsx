@@ -14,6 +14,7 @@ export function Header() {
   function handleOpenProfileCard(profileCardIsOpen: boolean) {
     setProfileCardIsOpen(!profileCardIsOpen);
   }
+
   return (
     <header className="flex justify-between p-16">
       <h1 className="text-2xl text-white">
@@ -26,7 +27,12 @@ export function Header() {
         >
           Novo registro
         </button>
-        {modalIsOpen ? <Modal modalIsOpen={modalIsOpen} /> : null}
+        {modalIsOpen ? (
+          <Modal
+            modalIsOpen={modalIsOpen}
+            handleOpenOrCloseModal={() => handleOpenOrCloseModal}
+          />
+        ) : null}
         {profileCardIsOpen ? <ProfileCard /> : null}
         <button
           className="w-10 h-10  rounded-full border-[1px] border-zinc-400 flex justify-center items-center"

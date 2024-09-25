@@ -1,6 +1,6 @@
+import { Prisma } from '@prisma/client'
 import type {
   TattoosRepository,
-  TattoosRepositoryProps
 } from '../../repositories/tattoos-repository'
 
 interface UpdateImageTattoRequest {
@@ -9,7 +9,7 @@ interface UpdateImageTattoRequest {
 }
 
 interface UpdateImageTattoResponse {
-  tattoos: TattoosRepositoryProps[]
+  tattoos: Prisma.TattoCreateInput[]
 }
 
 export class UpdateImageTattoUseCase {

@@ -10,6 +10,7 @@ import { PlusCircle } from "lucide-react";
 
 interface ModalProps {
   modalIsOpen: boolean;
+  handleOpenOrCloseModal: () => void;
 }
 
 // Esquema de validação Zod
@@ -27,7 +28,7 @@ const createTatooFormSchema = z.object({
 
 type CreateTattooData = z.infer<typeof createTatooFormSchema>;
 
-export function Modal({ modalIsOpen }: ModalProps) {
+export function Modal({ modalIsOpen, handleOpenOrCloseModal }: ModalProps) {
   const [loading, setLoading] = useState(false);
   const [apiError, setApiError] = useState<null | string>(null);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
@@ -93,9 +94,12 @@ export function Modal({ modalIsOpen }: ModalProps) {
   }
 
   return (
-    <div className="w-[30rem] h-[42rem] bg-zinc-900 absolute top-[20%] left-[42%] rounded-lg flex flex-col items-center justify-center">
+    <div className="w-[30rem] h-[44rem] bg-zinc-900 absolute top-[20%] left-[42%] rounded-lg flex flex-col items-center justify-center">
       <header className="w-full h-8 flex justify-end items-center px-4 py-6 text-red-400 gap-2">
-        <button className="w-3 h-3 rounded-full bg-red-400"></button>
+        <button
+          className="w-3 h-3 rounded-full bg-red-400"
+          onClick={() => handleOpenOrCloseModal}
+        ></button>
         <button className="w-3 h-3 rounded-full bg-yellow-400"></button>
         <button className="w-3 h-3 rounded-full bg-green-400"></button>
       </header>
@@ -111,7 +115,7 @@ export function Modal({ modalIsOpen }: ModalProps) {
         </div>
 
         <div className="w-[16rem]">
-          <label htmlFor="title" className=" text-zinc-400">
+          <label htmlFor="title" className="text-zinc-200">
             Titulo
           </label>
           <input
@@ -126,12 +130,13 @@ export function Modal({ modalIsOpen }: ModalProps) {
         </div>
 
         <div className="w-[16rem] mt-4">
-          <label htmlFor="description" className="text-zinc-400">
+          <label htmlFor="description" className="text-zinc-200">
             Descrição
           </label>
-          <input
+          <textarea
             id="description"
-            type="text"
+            cols={20}
+            rows={40}
             className="w-full h-8 bg-zinc-800 text-zinc-400 px-2 rounded-md outline-none"
             {...register("description")}
           />
@@ -141,7 +146,7 @@ export function Modal({ modalIsOpen }: ModalProps) {
         </div>
 
         <div className="w-[16rem] mt-4">
-          <label htmlFor="genre" className="text-zinc-400">
+          <label htmlFor="genre" className="text-zinc-200">
             Gênero
           </label>
           <select
@@ -158,7 +163,7 @@ export function Modal({ modalIsOpen }: ModalProps) {
         </div>
 
         <div className="w-[16rem] mt-4">
-          <label htmlFor="image" className="text-zinc-400">
+          <label htmlFor="image" className="text-zinc-200">
             Imagem
           </label>
           <div
