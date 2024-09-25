@@ -51,7 +51,7 @@ export default function Dashboard() {
         console.error(err);
       })
       .finally(() => {
-        setLoading(true);
+        setLoading(false);
       });
   }
 
@@ -60,7 +60,7 @@ export default function Dashboard() {
   }, []);
 
   return (
-    <div className="w-screen h-screen bg-black">
+    <div className={"w-screen h-screen bg-black"}>
       <div className="w-full h-full">
         <Header />
         <main className="mt-12 pl-16">

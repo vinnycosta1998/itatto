@@ -10,7 +10,6 @@ import { PlusCircle } from "lucide-react";
 
 interface ModalProps {
   modalIsOpen: boolean;
-  handleOpenOrCloseModal: () => void;
 }
 
 // Esquema de validação Zod

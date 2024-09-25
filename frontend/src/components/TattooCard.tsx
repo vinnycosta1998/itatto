@@ -6,7 +6,7 @@ interface TattooCardProps {
   isLoading: boolean;
 }
 
-export function TattooCard({ id, tattooImg, isLoading }: TattooCardProps) {
+export function TattooCard({ tattooImg, isLoading }: TattooCardProps) {
   return (
     <div className="w-36 h-36 bg-slate-100 rounded-md cursor-pointer keen-slider__slide mx-6">
       {isLoading ? (
