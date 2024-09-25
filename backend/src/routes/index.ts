@@ -12,12 +12,14 @@ import { updateGenreTattoo } from "../http/controllers/tattoo/update-genre-tatto
 import { updateImageTattoo } from "../http/controllers/tattoo/update-image-tattoo";
 import { updateTitleTattoo } from "../http/controllers/tattoo/update-title-tattoo";
 import { getListTattoo } from "../http/controllers/tattoo/get-list-tattoo";
+import { updatePassword } from "../http/controllers/user/update-password";
 
 export async function appRoutes(app: FastifyInstance) {
   app.post("/register", register);
   app.post("/authenticate", authenticate);
   app.get("/me", getUserProfile);
   app.post("/forget-password", forgetPassword);
+  app.post("/update-password", updatePassword);
 
   // Tatto routes
   app.post("/create-tattoo", createTattoo);
