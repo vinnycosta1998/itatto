@@ -1,12 +1,13 @@
 "use client";
 
+import { useState, useContext } from "react";
 import Link from "next/link";
 import { Poppins } from "@next/font/google";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { useState } from "react";
 import { toast } from "sonner";
+import { AuthContext } from "@/context/auth-context";
 
 const poppinsMono = Poppins({
   weight: "400",
@@ -34,51 +35,23 @@ const signUpBodySchema = z
 type SignUpFormData = z.infer<typeof signUpBodySchema>;
 
 export default function SignUp() {
+  const { signUp } = useContext(AuthContext);
+  const [loading, setLoading] = useState(false);
+  const [apiError, setApiError] = useState<string | null>(null);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<SignUpFormData>({ resolver: zodResolver(signUpBodySchema) });
 
-  const [loading, setLoading] = useState(false);
-  const [apiError, setApiError] = useState<string | null>(null);
-
-  // Função que chama a API sem usar async/await diretamente
-  function handleRegisterUser(data: SignUpFormData) {
-    setLoading(true);
-    setApiError(null);
-
-    fetch("http://localhost:3333/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name: data.name,
-        email: data.email,
-        password: data.password,
-      }),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          if (response.status === 409) {
-            toast.warning("Usúario já cadastrado no sistema");
-          }
-        }
-        return response;
-      })
-      .then((result) => {
-        console.log(result);
-      })
-      .catch((error) => {
-        setApiError(
-          error.message || "Erro inesperado ao tentar cadastrar o usuário"
-        );
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }
+  const handleRegisterUser = (data: SignUpFormData) => {
+    signUp({
+      name: data.name,
+      email: data.email,
+      password: data.password,
+    });
+  };
 
   return (
     <div className="w-full h-[100vh] bg-black flex justify-between">
