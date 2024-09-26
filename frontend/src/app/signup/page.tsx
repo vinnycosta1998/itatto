@@ -54,9 +54,9 @@ export default function SignUp() {
   };
 
   return (
-    <div className="w-full h-[100vh] bg-black flex justify-between">
+    <div className="w-full h-[100vh] bg-black flex justify-between items-center">
       <div className="w-[50%] h-full">
-        <video autoPlay loop muted className="w-full h-full">
+        <video autoPlay loop muted className="w-full h-full rounded-lg">
           <source src="/video-3.mp4" type="video/mp4" />
         </video>
       </div>

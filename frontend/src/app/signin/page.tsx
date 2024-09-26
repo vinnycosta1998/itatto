@@ -1,5 +1,5 @@
 "use client";
-
+import { useContext } from "react";
 import Link from "next/link";
 import { Poppins } from "@next/font/google";
 import { z } from "zod";
@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { toast } from "sonner";
+import { AuthContext } from "@/context/auth-context";
 
 // Configurando a fonte Poppins
 const poppinsMono = Poppins({
@@ -25,6 +26,7 @@ const signInBodySchema = z.object({
 type SignInFormData = z.infer<typeof signInBodySchema>;
 
 export default function SignIn() {
+  const { signIn } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
   const [apiError, setApiError] = useState<string | null>(null);
 
@@ -36,37 +38,12 @@ export default function SignIn() {
     resolver: zodResolver(signInBodySchema),
   });
 
-  function handleSignInUser(data: SignInFormData) {
-    setLoading(true);
-    fetch("http://localhost:3333/authenticate", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: data.email,
-        password: data.password,
-      }),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          if (response.status === 400) {
-            toast.warning("Email ou senha incorretos");
-          }
-        }
-      })
-      .then((result) => {
-        console.log(result);
-      })
-      .catch((err) => {
-        setApiError(
-          err.message || "Erro inesperado ao tentar autenticar usuario"
-        );
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }
+  const handleSignInUser = (data: SignInFormData) => {
+    signIn({
+      email: data.email,
+      password: data.password,
+    });
+  };
 
   return (
     <div className="w-full h-[100vh] bg-black flex justify-between">

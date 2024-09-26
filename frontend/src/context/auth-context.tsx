@@ -3,11 +3,12 @@ import { ReactNode, createContext, useEffect, useState } from "react";
 import { Router } from "next/router";
 import { destroyCookie, parseCookies, setCookie } from "nookies";
 import { toast } from "sonner";
+import { api } from "@/lib/axios/api-client";
 
 type User = {
   id: string;
+  name: string;
   email: string;
-  password: string;
 };
 
 type SignInProps = {
@@ -74,7 +75,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   async function signIn({ email, password }: SignInProps): Promise<void> {
     try {
-      const response = await fetch("/authenticate", {
+      const response = await fetch("http://localhost:3333/authenticate", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -88,7 +89,21 @@ export function AuthProvider({ children }: AuthProviderProps) {
       }
 
       const result = await response.json();
-      console.log(result);
+
+      const { id, name, token } = result;
+
+      setCookie(undefined, "@auth-itattoo:token", token, {
+        maxAge: 60 * 60 * 24,
+        path: "/",
+      });
+
+      setUser({
+        id,
+        name,
+        email,
+      });
+
+      api.defaults.headers.Authorization = `Bearer ${token}`;
     } catch (err) {
       toast.error("Credenciais inválidas");
       console.error(err);
