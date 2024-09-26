@@ -39,7 +39,7 @@ export const AuthContext = createContext({} as AuthContextData);
 export function signOut() {
   try {
     destroyCookie(undefined, "@auth-itattoo:token");
-    redirect("/authenticate");
+    redirect("/signin");
   } catch (err) {
     toast.error("Erro ao fazer logout");
   }
@@ -50,39 +50,38 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const isAuthenticated = !!user; // transforming state in property boolean
   const router = useRouter();
 
-  useEffect(() => {
-    const { "@auth-itattoo:token": token } = parseCookies();
+  // useEffect(() => {
+  //   const { "@auth-itattoo:token": token } = parseCookies();
 
-    if (token) {
-      fetch("http://localhost:3333/me", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          id: "9c41d21e-95aa-4a02-b2a6-b313104bf842",
-        }),
-      })
-        .then((response) => {
-          if (!response.ok) {
-            toast.error("Erro no servidor");
-          }
-          return response.json();
-        })
-        .then((result) => {
-          const { id, name, email } = result;
-          setUser({
-            id,
-            name,
-            email,
-          });
-        })
-        .catch((err) => {
-          signOut();
-          router.push("/authenticate");
-        });
-    }
-  }, []);
+  //   if (token) {
+  //     fetch("http://localhost:3333/me", {
+  //       method: "GET",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //         id: "9c41d21e-95aa-4a02-b2a6-b313104bf842",
+  //       }),
+  //     })
+  //       .then((response) => {
+  //         if (!response.ok) {
+  //           toast.error("Erro no servidor");
+  //         }
+  //         return response.json();
+  //       })
+  //       .then((result) => {
+  //         const { id, name, email } = result;
+  //         setUser({
+  //           id,
+  //           name,
+  //           email,
+  //         });
+  //       })
+  //       .catch((err) => {
+  //         signOut();
+  //       });
+  //   }
+  // }, []);
 
   async function signIn({ email, password }: SignInProps): Promise<void> {
     try {

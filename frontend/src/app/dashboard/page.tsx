@@ -5,10 +5,11 @@ import { Header } from "@/components/Header";
 import { TattooCard } from "@/components/TattooCard";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
-import { toast } from "sonner";
 import { parseCookies } from "nookies";
 import { AuthContext, signOut } from "@/context/auth-context";
 import { setupAPIClient } from "@/lib/axios/api";
+import { EmpytList } from "@/components/EmpytList";
+import { div } from "framer-motion/client";
 
 interface TattooProps {
   id: string;
@@ -39,14 +40,16 @@ export default function Dashboard() {
   const fetchTattooData = () => {
     const api = setupAPIClient();
 
-    api
-      .post("/list-tattoos", {
-        userId: "9c41d21e-95aa-4a02-b2a6-b313104bf842",
-        page: 1,
-      })
-      .then((response) => {
-        console.log(response);
-      });
+    if (user) {
+      api
+        .post("/list-tattoos", {
+          userId: user.id,
+          page: 1,
+        })
+        .then((response) => {
+          console.log(response);
+        });
+    }
   };
 
   useEffect(() => {
@@ -64,19 +67,25 @@ export default function Dashboard() {
               Realista
             </h1>
           </div>
-          <div className="embla fixed" ref={emblaRef}>
-            <div className="embla__container flex gap-2 relative">
-              {tattoos.map((tattoo) => {
-                return (
-                  <TattooCard
-                    key={tattoo.id}
-                    tattooImg={tattoo.image}
-                    isLoading={loading}
-                  />
-                );
-              })}
+          {tattoos.length === 0 ? (
+            <div className="w-full h-full flex items-center justify-center">
+              <EmpytList />
             </div>
-          </div>
+          ) : (
+            <div className="embla fixed" ref={emblaRef}>
+              <div className="embla__container flex gap-2 relative">
+                {tattoos.map((tattoo) => {
+                  return (
+                    <TattooCard
+                      key={tattoo.id}
+                      tattooImg={tattoo.image}
+                      isLoading={loading}
+                    />
+                  );
+                })}
+              </div>
+            </div>
+          )}
         </main>
       </div>
     </div>
