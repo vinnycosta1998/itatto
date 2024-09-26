@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Separator } from "./Separator";
+import { signOut } from "@/context/auth-context";
 
 export function ProfileCard() {
   return (
@@ -9,7 +10,7 @@ export function ProfileCard() {
       </div>
       <Separator />
       <div className="text-red-400">
-        <button>Fazer logout</button>
+        <button onClick={() => signOut()}>Fazer logout</button>
       </div>
     </div>
   );

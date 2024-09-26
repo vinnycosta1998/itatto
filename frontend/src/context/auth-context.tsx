@@ -1,6 +1,6 @@
 "use client";
 import { ReactNode, createContext, useEffect, useState } from "react";
-import { Router } from "next/router";
+import { useRouter, redirect } from "next/navigation";
 import { destroyCookie, parseCookies, setCookie } from "nookies";
 import { toast } from "sonner";
 import { api } from "@/lib/axios/api-client";
@@ -39,6 +39,7 @@ export const AuthContext = createContext({} as AuthContextData);
 export function signOut() {
   try {
     destroyCookie(undefined, "@auth-itattoo:token");
+    redirect("/authenticate");
   } catch (err) {
     toast.error("Erro ao fazer logout");
   }
@@ -47,16 +48,20 @@ export function signOut() {
 export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User>({} as User);
   const isAuthenticated = !!user; // transforming state in property boolean
+  const router = useRouter();
 
   useEffect(() => {
     const { "@auth-itattoo:token": token } = parseCookies();
 
     if (token) {
-      fetch("/me", {
+      fetch("http://localhost:3333/me", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
         },
+        body: JSON.stringify({
+          id: "9c41d21e-95aa-4a02-b2a6-b313104bf842",
+        }),
       })
         .then((response) => {
           if (!response.ok) {
@@ -65,10 +70,16 @@ export function AuthProvider({ children }: AuthProviderProps) {
           return response.json();
         })
         .then((result) => {
-          console.log(result);
+          const { id, name, email } = result;
+          setUser({
+            id,
+            name,
+            email,
+          });
         })
         .catch((err) => {
-          console.error(err);
+          signOut();
+          router.push("/authenticate");
         });
     }
   }, []);
@@ -93,7 +104,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       const { id, name, token } = result;
 
       setCookie(undefined, "@auth-itattoo:token", token, {
-        maxAge: 60 * 60 * 24,
+        maxAge: 60 * 60 * 24, // 1 day
         path: "/",
       });
 
@@ -104,6 +115,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
       });
 
       api.defaults.headers.Authorization = `Bearer ${token}`;
+
+      router.push("/dashboard");
     } catch (err) {
       toast.error("Credenciais inválidas");
       console.error(err);

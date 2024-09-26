@@ -13,21 +13,26 @@ import { updateImageTattoo } from "../http/controllers/tattoo/update-image-tatto
 import { updateTitleTattoo } from "../http/controllers/tattoo/update-title-tattoo";
 import { getListTattoo } from "../http/controllers/tattoo/get-list-tattoo";
 import { updatePassword } from "../http/controllers/user/update-password";
+import { verifyJWT } from "../http/middlewares/verify-jwt";
 
 export async function appRoutes(app: FastifyInstance) {
   app.post("/register", register);
   app.post("/authenticate", authenticate);
-  app.get("/me", getUserProfile);
   app.post("/forget-password", forgetPassword);
-  app.post("/update-password", updatePassword);
+  app.get("/me", getUserProfile);
+  app.post("/update-password", { onRequest: [verifyJWT] }, updatePassword);
 
   // Tatto routes
-  app.post("/create-tattoo", createTattoo);
-  app.delete("/delete-tattoo", deleteTattoo);
-  app.post("/search-tattoo", SearchManyTattoo);
-  app.put("/update-description", updateDescriptionTattoo);
-  app.put("/update-genre", updateGenreTattoo);
-  app.put("/update-image", updateImageTattoo);
-  app.put("/update-title", updateTitleTattoo);
-  app.post("/list-tattoos", getListTattoo);
+  app.post("/create-tattoo", { onRequest: [verifyJWT] }, createTattoo);
+  app.delete("/delete-tattoo", { onRequest: [verifyJWT] }, deleteTattoo);
+  app.post("/search-tattoo", { onRequest: [verifyJWT] }, SearchManyTattoo);
+  app.put(
+    "/update-description",
+    { onRequest: [verifyJWT] },
+    updateDescriptionTattoo,
+  );
+  app.put("/update-genre", { onRequest: [verifyJWT] }, updateGenreTattoo);
+  app.put("/update-image", { onRequest: [verifyJWT] }, updateImageTattoo);
+  app.put("/update-title", { onRequest: [verifyJWT] }, updateTitleTattoo);
+  app.post("/list-tattoos", { onRequest: [verifyJWT] }, getListTattoo);
 }

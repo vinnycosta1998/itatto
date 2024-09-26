@@ -4,7 +4,11 @@ import { User } from "lucide-react";
 import { Modal } from "./Modal";
 import { BackgroundCover } from "./BackgroundCover";
 
-export function Header() {
+interface HeaderProps {
+  name: string;
+}
+
+export function Header({ name }: HeaderProps) {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [profileCardIsOpen, setProfileCardIsOpen] = useState(false);
 
@@ -15,7 +19,7 @@ export function Header() {
   return (
     <header className={`w-full flex justify-between p-16`}>
       <h1 className="text-2xl text-white">
-        Seja bem vindo <strong>Vinicius</strong>
+        Seja bem vindo <strong>{name}</strong>
       </h1>
       <div className="w-[12rem] flex justify-between">
         <button

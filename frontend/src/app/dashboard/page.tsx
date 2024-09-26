@@ -1,12 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Header } from "@/components/Header";
 import { TattooCard } from "@/components/TattooCard";
 import useEmblaCarousel from "embla-carousel-react";
-import { useEffect } from "react";
 import Autoplay from "embla-carousel-autoplay";
 import { toast } from "sonner";
+import { parseCookies } from "nookies";
+import { AuthContext, signOut } from "@/context/auth-context";
+import { setupAPIClient } from "@/lib/axios/api";
 
 interface TattooProps {
   id: string;
@@ -21,48 +23,41 @@ interface TattooProps {
 [];
 
 export default function Dashboard() {
+  const { user } = useContext(AuthContext);
   const [loading, setLoading] = useState<boolean>(false);
   const [tattoos, setTattoos] = useState<TattooProps[]>([]);
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false }, [Autoplay()]);
 
-  function fetchTattoData() {
-    setLoading(true);
-    fetch("http://localhost:3333/list-tattoos", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        userId: "9c41d21e-95aa-4a02-b2a6-b313104bf842",
-        page: 1,
-      }),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          toast.error("Não foi possível carregar as imagens");
-        }
-        return response.json();
-      })
-      .then((result) => {
-        setTattoos(result.tattoos.tattoos);
-        console.log(result.tattoos.tattoos);
-      })
-      .catch((err) => {
-        console.error(err);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+  function validateUser() {
+    const { "@auth-itattoo:token": token } = parseCookies();
+
+    if (!token) {
+      signOut();
+    }
   }
 
+  const fetchTattooData = () => {
+    const api = setupAPIClient();
+
+    api
+      .post("/list-tattoos", {
+        userId: "9c41d21e-95aa-4a02-b2a6-b313104bf842",
+        page: 1,
+      })
+      .then((response) => {
+        console.log(response);
+      });
+  };
+
   useEffect(() => {
-    fetchTattoData();
+    validateUser();
+    fetchTattooData();
   }, []);
 
   return (
     <div className={"w-screen h-screen bg-black"}>
       <div className="w-full h-full">
-        <Header />
+        <Header name={user.name} />
         <main className="mt-12 pl-16">
           <div>
             <h1 className="font-bold text-2xl text-white neon-text mb-2">
