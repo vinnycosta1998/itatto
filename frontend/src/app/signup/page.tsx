@@ -55,19 +55,19 @@ export default function SignUp() {
 
   return (
     <div className="w-full h-[100vh] bg-black flex justify-between items-center">
-      <div className="w-[50%] h-full">
-        <video autoPlay loop muted className="w-full h-full rounded-lg">
+      <div className="h-[90%]">
+        <video autoPlay loop muted className="w-full h-full rounded-lg ml-8">
           <source src="/video-3.mp4" type="video/mp4" />
         </video>
       </div>
-      <div className="w-[50%]">
+      <div className="w-[50%] rounded-md">
         <form
           className="w-full h-full flex flex-col items-center justify-center gap-8"
           onSubmit={handleSubmit(handleRegisterUser)}
         >
-          <div>
+          <div className="w-[30rem] flex justify-center">
             <h1
-              className={`font-bold ${poppinsMono} text-white text-6xl neon-text`}
+              className={`font-bold ${poppinsMono} text-white text-4xl neon-text`}
             >
               Crie a sua conta
             </h1>

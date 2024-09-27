@@ -18,16 +18,16 @@ export function setupAPIClient(ctx = undefined) {
       return response;
     },
     (error: AxiosError) => {
-      // qualquer erro 401 (nao autorizado), devemos deslogar o usuário
-      if (error.status === 401) {
-        if (typeof window !== undefined) {
-          signOut();
+      // Verifica se o status é 401 (não autorizado)
+      if (error.response?.status === 401) {
+        if (typeof window !== "undefined") {
+          signOut(); // Desloga o usuário no client-side
         } else {
-          return Promise.reject(new AuthTokenError());
+          return Promise.reject(new AuthTokenError()); // Lança erro customizado no server-side
         }
       }
 
-      return Promise.reject(error);
+      return Promise.reject(error); // Retorna o erro para ser tratado em outro lugar, se necessário
     },
   );
 

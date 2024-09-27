@@ -5,6 +5,8 @@ import { InfoCard } from "@/components/InfoCard";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { infoText } from "@/repositories/info-text";
+import { GetServerSideProps } from "next";
+import { canSSRGuest } from "@/utils/canSSRGuest";
 
 export default function Home() {
   const [backgroundSlide, setBackgroundSlide] = useState(false);

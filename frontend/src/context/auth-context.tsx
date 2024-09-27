@@ -1,6 +1,6 @@
 "use client";
 import { ReactNode, createContext, useEffect, useState } from "react";
-import { useRouter, redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { destroyCookie, parseCookies, setCookie } from "nookies";
 import { toast } from "sonner";
 import { api } from "@/lib/axios/api-client";
@@ -24,7 +24,7 @@ type SignUpProps = {
 
 type AuthContextData = {
   isAuthenticated: boolean;
-  user: User;
+  user: User | null;
   signIn: (credentials: SignInProps) => Promise<void>;
   signUp: (credentials: SignUpProps) => Promise<void>;
   signOut: () => void;
@@ -39,7 +39,7 @@ export const AuthContext = createContext({} as AuthContextData);
 export function signOut() {
   try {
     destroyCookie(undefined, "@auth-itattoo:token");
-    redirect("/signin");
+    toast.success("Logout realizado com sucesso");
   } catch (err) {
     toast.error("Erro ao fazer logout");
   }
@@ -47,63 +47,22 @@ export function signOut() {
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User>({} as User);
-  const isAuthenticated = !!user; // transforming state in property boolean
+  const isAuthenticated = !!user;
   const router = useRouter();
 
-  // useEffect(() => {
-  //   const { "@auth-itattoo:token": token } = parseCookies();
-
-  //   if (token) {
-  //     fetch("http://localhost:3333/me", {
-  //       method: "GET",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({
-  //         id: "9c41d21e-95aa-4a02-b2a6-b313104bf842",
-  //       }),
-  //     })
-  //       .then((response) => {
-  //         if (!response.ok) {
-  //           toast.error("Erro no servidor");
-  //         }
-  //         return response.json();
-  //       })
-  //       .then((result) => {
-  //         const { id, name, email } = result;
-  //         setUser({
-  //           id,
-  //           name,
-  //           email,
-  //         });
-  //       })
-  //       .catch((err) => {
-  //         signOut();
-  //       });
-  //   }
-  // }, []);
-
-  async function signIn({ email, password }: SignInProps): Promise<void> {
+  async function signIn({ email, password }: SignInProps) {
     try {
-      const response = await fetch("http://localhost:3333/authenticate", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
+      const response = await api.post("/authenticate", {
+        email,
+        password,
       });
 
-      if (!response.ok) {
-        toast.error("Não foi possível autenticar, tente novamente mais tarde");
-        return;
-      }
+      console.log(response);
 
-      const result = await response.json();
-
-      const { id, name, token } = result;
+      const { id, name, token } = response.data;
 
       setCookie(undefined, "@auth-itattoo:token", token, {
-        maxAge: 60 * 60 * 24, // 1 day
+        maxAge: 60 * 60 * 24,
         path: "/",
       });
 
@@ -113,43 +72,62 @@ export function AuthProvider({ children }: AuthProviderProps) {
         email,
       });
 
-      api.defaults.headers.Authorization = `Bearer ${token}`;
-
-      router.push("/dashboard");
+      router.push(`/dashboard/${id}`);
     } catch (err) {
-      toast.error("Credenciais inválidas");
+      toast.error("Erro ao tentar fazer login");
       console.error(err);
     }
   }
 
-  async function signUp({ name, email, password }: SignUpProps): Promise<void> {
+  async function signUp({ name, email, password }: SignUpProps) {
     try {
-      const response = await fetch("http://localhost:3333/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ name, email, password }),
+      const response = await api.post("/register", {
+        name,
+        email,
+        password,
       });
 
-      if (!response.ok) {
-        if (response.status === 409) {
+      console.log(response.data);
+
+      // Exibir mensagem de sucesso ao usuário
+      toast.success("Cadastro realizado com sucesso!");
+    } catch (err: any) {
+      if (err.response) {
+        if (err.response.status === 409) {
           toast.warning("Usuário já cadastrado no sistema");
         } else {
           toast.error(
             "Não foi possível realizar o cadastro, tente novamente mais tarde",
           );
         }
-        return;
+      } else {
+        // Tratamento de erros genéricos
+        console.error(err);
+        toast.error("Erro ao tentar realizar o cadastro");
       }
-
-      const result = await response.json();
-      console.log(result);
-    } catch (err) {
-      console.error(err);
-      toast.error("Erro ao tentar realizar o cadastro");
     }
   }
+
+  useEffect(() => {
+    const { "@auth-itattoo:token": token } = parseCookies();
+
+    if (token) {
+      api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+      api
+        .get("/me")
+        .then((response) => {
+          const { id, name, email } = response.data;
+          console.log(response.data);
+          setUser({ id, name, email });
+        })
+        .catch((error) => {
+          console.error("Erro ao buscar dados do usuário", error);
+          // signOut();
+          // router.push("/signin")
+        });
+    }
+  }, []);
 
   return (
     <AuthContext.Provider

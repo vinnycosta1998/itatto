@@ -19,7 +19,7 @@ export async function appRoutes(app: FastifyInstance) {
   app.post("/register", register);
   app.post("/authenticate", authenticate);
   app.post("/forget-password", forgetPassword);
-  app.get("/me", getUserProfile);
+  app.get("/me", { onRequest: [verifyJWT] }, getUserProfile);
   app.post("/update-password", { onRequest: [verifyJWT] }, updatePassword);
 
   // Tatto routes

@@ -2,7 +2,7 @@ import { User } from "@prisma/client";
 import { UsersRepository } from "../../repositories/users-repository";
 import { UserNotFoundError } from "../../errors/user-not-found-error";
 import { PasswordLenghtError } from "../../errors/password-length-error";
-import { hash } from "bcryptjs";
+import { compare, hash } from "bcryptjs";
 
 interface UpdatePasswordRequest {
   email: string;

@@ -44,7 +44,12 @@ export function Header({ name }: HeaderProps) {
         >
           Novo registro
         </button>
-        {modalIsOpen ? <Modal modalIsOpen={modalIsOpen} /> : null}
+        {modalIsOpen ? (
+          <Modal
+            modalIsOpen={modalIsOpen}
+            handleCloseModal={() => setModalIsOpen(false)}
+          />
+        ) : null}
         {profileCardIsOpen ? <ProfileCard /> : null}
         <button
           className="w-10 h-10 rounded-full border-[1px] border-zinc-400 flex justify-center items-center"

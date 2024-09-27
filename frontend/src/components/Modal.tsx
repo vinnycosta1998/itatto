@@ -10,6 +10,7 @@ import { PlusCircle } from "lucide-react";
 
 interface ModalProps {
   modalIsOpen: boolean;
+  handleCloseModal: () => void;
 }
 
 // Esquema de validação Zod
@@ -27,7 +28,7 @@ const createTatooFormSchema = z.object({
 
 type CreateTattooData = z.infer<typeof createTatooFormSchema>;
 
-export function Modal({ modalIsOpen, handleOpenOrCloseModal }: ModalProps) {
+export function Modal({ modalIsOpen, handleCloseModal }: ModalProps) {
   const [loading, setLoading] = useState(false);
   const [apiError, setApiError] = useState<null | string>(null);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
@@ -93,11 +94,11 @@ export function Modal({ modalIsOpen, handleOpenOrCloseModal }: ModalProps) {
   }
 
   return (
-    <div className="w-[30rem] h-[44rem] bg-zinc-900 absolute top-[20%] left-[42%] rounded-lg flex flex-col items-center justify-center">
+    <div className="w-[30rem] h-[50rem] bg-zinc-950 absolute top-[20%] left-[42%] rounded-lg flex flex-col items-center justify-center">
       <header className="w-full h-8 flex justify-end items-center px-4 py-6 text-red-400 gap-2">
         <button
           className="w-3 h-3 rounded-full bg-red-400"
-          onClick={() => handleOpenOrCloseModal}
+          onClick={() => handleCloseModal}
         ></button>
         <button className="w-3 h-3 rounded-full bg-yellow-400"></button>
         <button className="w-3 h-3 rounded-full bg-green-400"></button>
@@ -124,7 +125,9 @@ export function Modal({ modalIsOpen, handleOpenOrCloseModal }: ModalProps) {
             {...register("title")}
           />
           {errors.title && (
-            <span className="text-red-500">{errors.title.message}</span>
+            <span className="text-red-500 text-center">
+              {errors.title.message}
+            </span>
           )}
         </div>
 
@@ -140,7 +143,9 @@ export function Modal({ modalIsOpen, handleOpenOrCloseModal }: ModalProps) {
             {...register("description")}
           />
           {errors.description && (
-            <span className="text-red-500">{errors.description.message}</span>
+            <span className="text-red-500 text-center">
+              {errors.description.message}
+            </span>
           )}
         </div>
 

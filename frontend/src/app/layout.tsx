@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { GetServerSideProps, Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { Poppins } from "@next/font/google";
@@ -34,14 +34,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} ${poppinsMono} antialiased`}
-      >
-        <AuthProvider>
+      <AuthProvider>
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} ${poppinsMono} antialiased`}
+        >
           <Toaster richColors />
           {children}
-        </AuthProvider>
-      </body>
+        </body>
+      </AuthProvider>
     </html>
   );
 }

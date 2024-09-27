@@ -6,7 +6,6 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
-import { toast } from "sonner";
 import { AuthContext } from "@/context/auth-context";
 
 // Configurando a fonte Poppins
@@ -46,21 +45,26 @@ export default function SignIn() {
   };
 
   return (
-    <div className="w-full h-[100vh] bg-black flex justify-between">
-      <div className="w-[50%] h-full">
-        <video autoPlay={true} loop={true} muted className="w-full h-full">
+    <div className="w-full h-[100vh] bg-black flex justify-between items-center">
+      <div className="h-[90%]">
+        <video
+          autoPlay={true}
+          loop={true}
+          muted
+          className="w-full h-full rounded-lg ml-8"
+        >
           <source src="/video-3.mp4" type="video/mp4" />
         </video>
       </div>
 
-      <div className="w-[50%]">
+      <div className="w-[50%] flex flex-col">
         <form
           onSubmit={handleSubmit(handleSignInUser)}
           className="w-full h-full flex flex-col items-center justify-center gap-8"
         >
-          <div>
+          <div className="w-[30rem] flex justify-center">
             <h1
-              className={`font-bold ${poppinsMono} text-white text-6xl neon-text`}
+              className={`font-bold ${poppinsMono} text-white text-4xl neon-text`}
             >
               Entre com a sua conta
             </h1>

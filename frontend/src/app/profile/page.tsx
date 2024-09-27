@@ -1,9 +1,14 @@
 "use client";
 
+import { useContext } from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
+import { AuthContext } from "@/context/auth-context";
+import { setupAPIClient } from "@/lib/axios/api";
+import { toast } from "sonner";
+import { compare } from "bcryptjs";
 
 const updateProfileBodySchema = z
   .object({
@@ -11,12 +16,16 @@ const updateProfileBodySchema = z
       .string()
       .min(8, "A senha deve conter no minimo 8 caractheres")
       .max(14, "A senha deve conter no máximo 14 caractheres"),
-    password_confirmation: z
+    new_password: z
+      .string()
+      .min(8, "A senha deve conter no minimo 8 caractheres")
+      .max(14, "A senha deve conter no máximo 14 caractheres"),
+    new_password_confirmation: z
       .string()
       .min(8, "A senha deve conter no minimo 8 caractheres")
       .max(14, "A senha deve conter no máximo 14 caractheres"),
   })
-  .refine((data) => data.password === data.password_confirmation, {
+  .refine((data) => data.password === data.new_password_confirmation, {
     message: "As senhas precisam ser iguais",
     path: ["password_confirmation"],
   });
@@ -24,6 +33,7 @@ const updateProfileBodySchema = z
 type UpdateProfileData = z.infer<typeof updateProfileBodySchema>;
 
 export default function Profile() {
+  const { user } = useContext(AuthContext);
   const {
     register,
     handleSubmit,
@@ -33,12 +43,32 @@ export default function Profile() {
   });
 
   function handleUpdatePassword(data: UpdateProfileData) {
-    console.log(data);
+    const api = setupAPIClient();
+
+    if (user) {
+      try {
+        api
+          .post("/update-password", {
+            email: user.email,
+            password: data.password,
+          })
+          .then((response) => {
+            console.log(response);
+          });
+        toast.success("Senha atualizadas com sucesso");
+      } catch (err) {
+        toast.error("não foi possível atualizar a senha");
+      }
+    }
   }
+
   return (
     <div className="w-screen h-screen bg-black flex flex-col items-center justify-center">
       <div className="w-[30rem] h-[40rem] rounded-lg">
-        <form className="w-full h-full flex flex-col items-center gap-4 text-zinc-400">
+        <form
+          className="w-full h-full flex flex-col items-center gap-4 text-zinc-400"
+          onSubmit={handleSubmit(handleUpdatePassword)}
+        >
           <h1 className="text-4xl neon-text">Altere os seus dados </h1>
           <div className="w-[26rem] flex justify-start">
             <label className="font-bold text-white">Nome</label>
@@ -46,7 +76,7 @@ export default function Profile() {
           <input
             type="text"
             className="w-[26rem] h-12 bg-zinc-900 px-2 rounded-md outline-none placeholder:text-zinc-600"
-            placeholder="Vinicius Costa de Almeida"
+            placeholder={user.name}
             readOnly
           />
 
@@ -56,20 +86,29 @@ export default function Profile() {
           <input
             type="text"
             className="w-[26rem] h-12 bg-zinc-900 px-2 rounded-md outline-none  placeholder:text-zinc-600"
-            placeholder="viniciuscostadealmeida98@gmail.com"
+            placeholder={user.email}
             readOnly
           />
           <div className="w-[26rem] flex justify-start">
-            <label className="font-bold text-white">Senha</label>
+            <label className="font-bold text-white">Senha atual</label>
+          </div>
+          <input
+            type="text"
+            className="w-[26rem] h-12 bg-zinc-900 px-2 rounded-md outline-none  placeholder:text-zinc-400"
+            placeholder="Digite a sua senha atual"
+            {...register("password")}
+          />
+          <div className="w-[26rem] flex justify-start">
+            <label className="font-bold text-white">Nova senha</label>
           </div>
           <input
             type="text"
             className="w-[26rem] h-12 bg-zinc-900 px-2 rounded-md outline-none"
             placeholder="Digite a sua senha"
-            {...register("password")}
+            {...register("new_password")}
           />
-          {errors.password && (
-            <span className="text-red-400">{errors.password.message}</span>
+          {errors.new_password && (
+            <span className="text-red-400">{errors.new_password.message}</span>
           )}
           <div className="w-[26rem] flex justify-start">
             <label className="font-bold text-white">Confirme a senha</label>
@@ -78,11 +117,11 @@ export default function Profile() {
             type="text"
             className="w-[26rem] h-12 bg-zinc-900 px-2 rounded-md outline-none"
             placeholder="Confirme a sua senha"
-            {...register("password_confirmation")}
+            {...register("new_password_confirmation")}
           />
-          {errors.password_confirmation && (
+          {errors.new_password_confirmation && (
             <span className="text-red-400">
-              {errors.password_confirmation.message}
+              {errors.new_password_confirmation.message}
             </span>
           )}
           <button className="w-[26rem] h-12 bg-zinc-900 font-bold text-white rounded-md">
