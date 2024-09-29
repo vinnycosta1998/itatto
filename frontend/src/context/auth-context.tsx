@@ -1,6 +1,6 @@
 "use client";
 import { ReactNode, createContext, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, redirect } from "next/navigation";
 import { destroyCookie, parseCookies, setCookie } from "nookies";
 import { toast } from "sonner";
 import { api } from "@/lib/axios/api-client";
@@ -40,6 +40,7 @@ export function signOut() {
   try {
     destroyCookie(undefined, "@auth-itattoo:token");
     toast.success("Logout realizado com sucesso");
+    redirect("/signin");
   } catch (err) {
     toast.error("Erro ao fazer logout");
   }
@@ -89,7 +90,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
       console.log(response.data);
 
-      // Exibir mensagem de sucesso ao usuário
       toast.success("Cadastro realizado com sucesso!");
     } catch (err: any) {
       if (err.response) {
@@ -101,7 +101,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
           );
         }
       } else {
-        // Tratamento de erros genéricos
         console.error(err);
         toast.error("Erro ao tentar realizar o cadastro");
       }
@@ -123,8 +122,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
         })
         .catch((error) => {
           console.error("Erro ao buscar dados do usuário", error);
-          // signOut();
-          // router.push("/signin")
+          signOut();
+          router.push("/signin");
         });
     }
   }, []);

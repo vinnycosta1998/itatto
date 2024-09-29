@@ -22,7 +22,7 @@ interface TattooProps {
 [];
 
 export default function Dashboard({ params }: { params: { slug: string } }) {
-  const { user } = useContext(AuthContext);
+  const { user, isAuthenticated } = useContext(AuthContext);
   const [loading, setLoading] = useState<boolean>(false);
   const [tattoos, setTattoos] = useState<TattooProps[]>([]);
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false }, [Autoplay()]);
@@ -37,8 +37,8 @@ export default function Dashboard({ params }: { params: { slug: string } }) {
           page: 1,
         })
         .then((response) => {
-          console.log(response.data.tattoos);
-          setTattoos(response.data.tattoos);
+          console.log(response.data.tattoos.tattoos);
+          setTattoos(response.data.tattoos.tattoos);
         });
     }
   };
@@ -50,7 +50,7 @@ export default function Dashboard({ params }: { params: { slug: string } }) {
   return (
     <div className={"w-screen h-screen bg-black"}>
       <div className="w-full h-full">
-        <Header name={user!.name} />
+        <Header name={user!.name} slug={params.slug} />
         <main className="mt-12 pl-16">
           <div>
             <h1 className="font-bold text-2xl text-white neon-text mb-2">

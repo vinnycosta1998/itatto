@@ -6,9 +6,10 @@ import Typewriter from "typewriter-effect";
 
 interface HeaderProps {
   name: string;
+  slug: string;
 }
 
-export function Header({ name }: HeaderProps) {
+export function Header({ name, slug }: HeaderProps) {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [profileCardIsOpen, setProfileCardIsOpen] = useState(false);
 
@@ -48,6 +49,7 @@ export function Header({ name }: HeaderProps) {
           <Modal
             modalIsOpen={modalIsOpen}
             handleCloseModal={() => setModalIsOpen(false)}
+            slug={slug}
           />
         ) : null}
         {profileCardIsOpen ? <ProfileCard /> : null}

@@ -7,10 +7,12 @@ import { useCallback, useState } from "react";
 import { toast } from "sonner";
 import { useDropzone } from "react-dropzone";
 import { PlusCircle } from "lucide-react";
+import { api } from "@/lib/axios/api-client";
 
 interface ModalProps {
   modalIsOpen: boolean;
   handleCloseModal: () => void;
+  slug: string;
 }
 
 // Esquema de validação Zod
@@ -28,7 +30,7 @@ const createTatooFormSchema = z.object({
 
 type CreateTattooData = z.infer<typeof createTatooFormSchema>;
 
-export function Modal({ modalIsOpen, handleCloseModal }: ModalProps) {
+export function Modal({ modalIsOpen, handleCloseModal, slug }: ModalProps) {
   const [loading, setLoading] = useState(false);
   const [apiError, setApiError] = useState<null | string>(null);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
@@ -63,30 +65,33 @@ export function Modal({ modalIsOpen, handleCloseModal }: ModalProps) {
     formData.append("title", data.title);
     formData.append("description", data.description);
     formData.append("genre", data.genre);
+    formData.append("userId", slug);
 
     if (selectedFiles.length > 0) {
       formData.append("image", selectedFiles[0]); // Adiciona a imagem
     }
 
-    fetch("http://localhost:3333/create-tattoo", {
-      method: "POST",
-      body: formData,
-    })
+    api
+      .post("/create-tattoo", formData)
       .then((response) => {
-        if (!response.ok) {
-          if (response.status === 413) {
-            toast.warning("Descrição deve conter no máximo 60 caracteres");
-          }
+        // Verifica manualmente o status HTTP se necessário
+        if (response.status === 413) {
+          toast.warning("Descrição deve conter no máximo 60 caracteres");
           throw new Error("Erro ao cadastrar tatuagem");
         }
-        return response.json();
-      })
-      .then((result) => {
-        console.log(result);
+
         toast.success("Tatuagem cadastrada com sucesso!");
+        console.log(response.data);
       })
-      .catch((err) => {
-        setApiError(err.message || "Erro inesperado ao cadastrar tatuagem");
+      .catch((err: any) => {
+        if (err.response) {
+          setApiError(
+            err.response.data.message ||
+              "Erro inesperado ao cadastrar tatuagem",
+          );
+        } else {
+          setApiError(err.message || "Erro inesperado ao cadastrar tatuagem");
+        }
       })
       .finally(() => {
         setLoading(false);
@@ -94,7 +99,7 @@ export function Modal({ modalIsOpen, handleCloseModal }: ModalProps) {
   }
 
   return (
-    <div className="w-[30rem] h-[50rem] bg-zinc-950 absolute top-[20%] left-[42%] rounded-lg flex flex-col items-center justify-center">
+    <div className="w-[30rem] h-[46rem] bg-zinc-950 absolute top-[20%] left-[42%] rounded-lg flex flex-col items-center justify-center">
       <header className="w-full h-8 flex justify-end items-center px-4 py-6 text-red-400 gap-2">
         <button
           className="w-3 h-3 rounded-full bg-red-400"
@@ -187,11 +192,15 @@ export function Modal({ modalIsOpen, handleCloseModal }: ModalProps) {
               Arquivo selecionado: {selectedFiles[0].name}
             </p>
           )}
+          <p className="text-zinc-600 text-sm mt-2">
+            Fomatos suportados: (.jpg, .jpeg, .png)
+          </p>
+          <span className="text-zinc-600 text-sm mt-2">Tamanho máximo 3mb</span>
         </div>
 
         <button
           type="submit"
-          className="w-[16rem] h-8 bg-green-800 font-bold text-white rounded-md mt-6"
+          className="w-[16rem] h-8 bg-green-600 font-bold text-white rounded-md mt-6"
           disabled={loading}
         >
           {loading ? "Enviando..." : "Cadastrar"}
