@@ -14,15 +14,35 @@ datasource db {
 }
 
 model User {
-  id        String    @id @default(uuid())
-  name      String
-  email     String    @unique
-  password  String
-  createdAt DateTime? @default(now())
-  updatedAt DateTime? @default(now())
-  tatto     Tatto[]
+  id           String         @id @default(uuid())
+  name         String
+  email        String         @unique
+  password     String
+  createdAt    DateTime?      @default(now())
+  updatedAt    DateTime?      @default(now())
+  tatto        Tatto[]
+  TattooArtist TattooArtist[]
 
   @@map("users")
+}
+
+model TattooArtist {
+  id           String @id @default(uuid())
+  name         String
+  bio          String
+  image        String
+  phone        String @unique()
+  cep          String
+  street       String
+  neighborhood String
+  city         String
+
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @default(now())
+  user      User      @relation(fields: [userId], references: [id])
+  userId    String
+
+  @@map("artists")
 }
 
 model Tatto {
