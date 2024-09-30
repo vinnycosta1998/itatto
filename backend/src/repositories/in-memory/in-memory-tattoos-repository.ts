@@ -1,6 +1,6 @@
 import { randomUUID } from 'node:crypto'
 import type { TattoosRepository } from '../tattoos-repository'
-import type { Prisma, Tatto } from '@prisma/client'
+import type { Tatto } from '@prisma/client'
 
 export class InMemoryTattoosRepository implements TattoosRepository {
   public items: Tatto[] = []
