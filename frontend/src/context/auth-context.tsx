@@ -59,8 +59,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
         password,
       });
 
-      console.log("login", response);
-
       const { id, name, token } = response.data;
 
       setCookie(undefined, "@auth-itattoo:token", token, {
@@ -78,8 +76,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
       router.push(`/dashboard/${id}`);
     } catch (err) {
-      toast.error("Erro ao tentar fazer login");
-      console.error(err);
+      toast.error("Credenciais inválidas");
     }
   }
 

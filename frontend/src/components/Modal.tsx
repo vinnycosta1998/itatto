@@ -42,7 +42,6 @@ export function Modal({ modalIsOpen, handleCloseModal, slug }: ModalProps) {
     resolver: zodResolver(createTatooFormSchema),
   });
 
-  // Função para tratar o upload de arquivos
   const onDrop = useCallback((acceptedFiles: File[]) => {
     setSelectedFiles(acceptedFiles);
   }, []);
@@ -55,7 +54,6 @@ export function Modal({ modalIsOpen, handleCloseModal, slug }: ModalProps) {
     multiple: false,
   });
 
-  // Função de envio do formulário
   function handleCreateTattoo(data: CreateTattooData) {
     setLoading(true);
 
@@ -64,7 +62,6 @@ export function Modal({ modalIsOpen, handleCloseModal, slug }: ModalProps) {
     formData.append("title", data.title);
     formData.append("description", data.description);
     formData.append("genre", data.genre);
-    formData.append("userId", slug);
 
     if (selectedFiles.length > 0) {
       formData.append("image", selectedFiles[0]); // Adiciona a imagem
@@ -92,6 +89,7 @@ export function Modal({ modalIsOpen, handleCloseModal, slug }: ModalProps) {
       })
       .finally(() => {
         setLoading(false);
+        handleCloseModal();
       });
   }
 

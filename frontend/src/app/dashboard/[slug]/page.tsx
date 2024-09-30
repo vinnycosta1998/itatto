@@ -45,14 +45,12 @@ export default function Dashboard({ params }: { params: { slug: string } }) {
 
   useEffect(() => {
     fetchTattooData();
-  }, []);
-
-  const userData = localStorage.getItem("@user-data");
+  }, [tattoos]);
 
   return (
     <div className={"w-screen h-screen bg-black"}>
       <div className="w-full h-full">
-        <Header name={userData!.name} slug={params.slug} />
+        <Header name={""} slug={params.slug} />
         <main className="mt-12 pl-16">
           <div>
             <h1 className="font-bold text-2xl text-white neon-text mb-2">
