@@ -1,3 +1,4 @@
+import { TattooArtistWithSamePhoneNumber } from "../../errors/tattoo-artist-with-same-phone-number-error";
 import { TattooArtistProps, TattoosArtistRepository } from "../../repositories/tattoo-artist-repository";
 
 type CreateTattooArtistRequest = TattooArtistProps
@@ -13,7 +14,7 @@ export class CreateTattooArtistUseCase{
         const phone = await this.tattoArtist.findByPhone(props.phone)
 
         if(phone){
-            throw new Error("phone alreadys exists")
+            throw new TattooArtistWithSamePhoneNumber()
         }
 
         const artist = await this.tattoArtist.create({
