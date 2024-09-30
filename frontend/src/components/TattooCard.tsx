@@ -13,7 +13,7 @@ export function TattooCard({ tattooImg, isLoading }: TattooCardProps) {
         <LoadingCard />
       ) : (
         <Image
-          src={`http://localhost:3333/public/image.jpeg`}
+          src={`http://localhost:3333/${tattooImg.slice(6, tattooImg.length)}`}
           width={144}
           height={144}
           alt="tatuagem"

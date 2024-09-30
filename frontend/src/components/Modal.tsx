@@ -15,7 +15,6 @@ interface ModalProps {
   slug: string;
 }
 
-// Esquema de validação Zod
 const createTatooFormSchema = z.object({
   title: z
     .string()
@@ -74,14 +73,12 @@ export function Modal({ modalIsOpen, handleCloseModal, slug }: ModalProps) {
     api
       .post("/create-tattoo", formData)
       .then((response) => {
-        // Verifica manualmente o status HTTP se necessário
         if (response.status === 413) {
           toast.warning("Descrição deve conter no máximo 60 caracteres");
           throw new Error("Erro ao cadastrar tatuagem");
         }
 
         toast.success("Tatuagem cadastrada com sucesso!");
-        console.log(response.data);
       })
       .catch((err: any) => {
         if (err.response) {
@@ -103,7 +100,7 @@ export function Modal({ modalIsOpen, handleCloseModal, slug }: ModalProps) {
       <header className="w-full h-8 flex justify-end items-center px-4 py-6 text-red-400 gap-2">
         <button
           className="w-3 h-3 rounded-full bg-red-400"
-          onClick={() => handleCloseModal}
+          onClick={() => handleCloseModal()}
         ></button>
         <button className="w-3 h-3 rounded-full bg-yellow-400"></button>
         <button className="w-3 h-3 rounded-full bg-green-400"></button>

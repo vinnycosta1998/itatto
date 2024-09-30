@@ -17,6 +17,10 @@ export function Header({ name, slug }: HeaderProps) {
     setProfileCardIsOpen(!profileCardIsOpen);
   }
 
+  function handleCloseModal() {
+    setModalIsOpen(false);
+  }
+
   return (
     <header className={`w-full flex justify-between p-16`}>
       <h1 className="text-2xl text-white flex gap-2">
@@ -48,11 +52,11 @@ export function Header({ name, slug }: HeaderProps) {
         {modalIsOpen ? (
           <Modal
             modalIsOpen={modalIsOpen}
-            handleCloseModal={() => setModalIsOpen(false)}
+            handleCloseModal={handleCloseModal}
             slug={slug}
           />
         ) : null}
-        {profileCardIsOpen ? <ProfileCard /> : null}
+        {profileCardIsOpen ? <ProfileCard slug={slug} /> : null}
         <button
           className="w-10 h-10 rounded-full border-[1px] border-zinc-400 flex justify-center items-center"
           onClick={() => handleOpenProfileCard(profileCardIsOpen)}

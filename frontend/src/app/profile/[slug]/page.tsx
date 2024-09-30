@@ -32,7 +32,7 @@ const updateProfileBodySchema = z
 
 type UpdateProfileData = z.infer<typeof updateProfileBodySchema>;
 
-export default function Profile() {
+export default function Profile({ params }: { params: { slug: string } }) {
   const { user } = useContext(AuthContext);
   const {
     register,
@@ -128,7 +128,10 @@ export default function Profile() {
             Alterar dados
           </button>
 
-          <Link href="/dashboard" className="font-bold text-white mt-8">
+          <Link
+            href={`/dashboard/${params.slug}`}
+            className="font-bold text-white mt-8"
+          >
             Volte para o início
           </Link>
         </form>

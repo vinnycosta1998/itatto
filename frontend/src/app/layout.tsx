@@ -34,14 +34,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <AuthProvider>
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} ${poppinsMono} antialiased`}
-        >
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} ${poppinsMono} antialiased`}
+      >
+        <AuthProvider>
           <Toaster richColors />
           {children}
-        </body>
-      </AuthProvider>
+        </AuthProvider>
+      </body>
     </html>
   );
 }

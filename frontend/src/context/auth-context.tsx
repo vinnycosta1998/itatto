@@ -1,6 +1,7 @@
 "use client";
+
 import { ReactNode, createContext, useEffect, useState } from "react";
-import { useRouter, redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { destroyCookie, parseCookies, setCookie } from "nookies";
 import { toast } from "sonner";
 import { api } from "@/lib/axios/api-client";
@@ -40,8 +41,8 @@ export function signOut() {
   try {
     destroyCookie(undefined, "@auth-itattoo:token");
     toast.success("Logout realizado com sucesso");
-    redirect("/signin");
   } catch (err) {
+    console.log(err);
     toast.error("Erro ao fazer logout");
   }
 }
@@ -58,7 +59,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         password,
       });
 
-      console.log(response);
+      console.log("login", response);
 
       const { id, name, token } = response.data;
 
@@ -72,6 +73,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
         name,
         email,
       });
+
+      localStorage.setItem("@user-data", JSON.stringify({ id, name, email }));
 
       router.push(`/dashboard/${id}`);
     } catch (err) {
@@ -116,8 +119,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
       api
         .get("/me")
         .then((response) => {
+          console.log(response);
           const { id, name, email } = response.data;
-          console.log(response.data);
           setUser({ id, name, email });
         })
         .catch((error) => {
