@@ -9,7 +9,7 @@ export class PrismaTattoosRepository implements TattoosRepository {
         title: data.title,
         description: data.description,
         genre: data.genre,
-        image: data.image
+        image: data.image,
       }
     })
 

@@ -1,18 +1,6 @@
-export interface TattooArtistProps{
-  id: string
-  name: string
-  bio: string
-  image: string
-  phone: string
-  cep: string
-  street: string
-  neighborhood: string
-  city: string
-  createdAt?: Date
-  updatedAt?: Date
-}
+import { Prisma, TattooArtist } from '@prisma/client'
 
 export interface TattoosArtistRepository {
-  create(data: TattooArtistProps): Promise<TattooArtistProps>
-  findByPhone(phone: string): Promise<TattooArtistProps | null>
+  create(data: Prisma.TattooArtistCreateInput, userId: string): Promise<TattooArtist>
+  findByPhone(phone: string): Promise<TattooArtist | null>
 }
