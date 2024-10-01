@@ -20,7 +20,7 @@ export async function createTattoo(req: FastifyRequest, res: FastifyReply) {
 
   try {
     // Verifica se há arquivos/partes no request (multipart)
-    const parts = req.parts({limits: {fileSize: 41943040}});
+    const parts = req.parts({limits: {fileSize: 3.145728}});
 
     // Loop para processar as partes do FormData (arquivos e campos de texto)
     for await (const part of parts) {
@@ -47,8 +47,6 @@ export async function createTattoo(req: FastifyRequest, res: FastifyReply) {
     });
 
     createTattooBodySchema.parse({ title, description, genre });
-
-    console.log(title, description, genre )
 
     if (!imagePath) {
       throw new UploadImageError();
