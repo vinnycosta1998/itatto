@@ -1,11 +1,42 @@
 "use client";
 
-import Link from "next/link";
 import { useDropzone } from "react-dropzone";
 import { PlusCircle } from "lucide-react";
 import { useCallback, useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+
+const profileBodySchema = z.object({
+  name: z
+    .string()
+    .min(2, { message: "O nome deve ter no mínimo 2 caracteres." })
+    .max(24, { message: "O nome deve ter no máximo 24 caracteres." }),
+  bio: z
+    .string()
+    .min(12, { message: "A biografia deve ter no mínimo 12 caracteres." })
+    .max(240, { message: "A biografia deve ter no máximo 240 caracteres." }),
+  phone: z.string().regex(/^\(?\d{2}\)?[\s-]?\d{4,5}[\s-]?\d{4}$/, {
+    message: "Número de telefone inválido.",
+  }),
+  cep: z.string().regex(/^\d{5}-\d{3}$/, {
+    message: "CEP inválido. Formato esperado: 99999-999.",
+  }),
+  street: z.string(),
+  neighborhood: z.string(),
+  city: z.string(),
+});
+
+type ProfileData = z.infer<typeof profileBodySchema>;
 
 export default function Profile() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(profileBodySchema),
+  });
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
@@ -33,7 +64,13 @@ export default function Profile() {
             type="text"
             className="w-[26rem] h-12 bg-zinc-900 px-2 rounded-md outline-none placeholder:text-zinc-600"
             placeholder="Digite o seu nome"
+            {...register("name")}
           />
+          {errors.name && (
+            <span className="text-red-500 text-center">
+              {errors.name.message}
+            </span>
+          )}
           <div className="w-[26rem] flex justify-start mt-4">
             <label className="font-bold text-white">Bio</label>
           </div>
@@ -41,6 +78,7 @@ export default function Profile() {
             rows={40}
             className="w-[26rem] h-32 bg-zinc-900 px-2 rounded-md outline-none placeholder:text-zinc-600"
             placeholder="Digite a sua bio"
+            {...register("bio")}
           />
           <div className="w-[16rem] mt-4">
             <label htmlFor="image" className="text-zinc-200">
@@ -79,6 +117,7 @@ export default function Profile() {
             type="tel"
             className="w-[26rem] h-12 bg-zinc-900 px-2 rounded-md outline-none placeholder:text-zinc-600"
             placeholder="Digite o seu telefone"
+            {...register("phone")}
           />
           <div className="w-[26rem] flex justify-start mt-4">
             <label className="font-bold text-white">CEP</label>
@@ -95,6 +134,7 @@ export default function Profile() {
             type="text"
             className="w-[26rem] h-12 bg-zinc-900 px-2 rounded-md outline-none placeholder:text-zinc-600"
             placeholder="Digite a sua rua"
+            {...register("street")}
           />
           <div className="w-[26rem] flex justify-start mt-4">
             <label className="font-bold text-white">Bairro</label>
@@ -103,6 +143,7 @@ export default function Profile() {
             type="text"
             className="w-[26rem] h-12 bg-zinc-900 px-2 rounded-md outline-none placeholder:text-zinc-600"
             placeholder="Digite o seu bairro"
+            {...register("neighborhood")}
           />
           <div className="w-[26rem] flex justify-start mt-4">
             <label className="font-bold text-white">Cidade</label>
@@ -111,6 +152,7 @@ export default function Profile() {
             type="text"
             className="w-[26rem] h-12 bg-zinc-900 px-2 rounded-md outline-none placeholder:text-zinc-600"
             placeholder="Digite a sua cidade"
+            {...register("city")}
           />
           <button
             className="w-[26rem] h-12 border-[1px] border-white rounded-md mt-4"
