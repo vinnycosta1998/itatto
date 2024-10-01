@@ -45,7 +45,7 @@ export default function Profile({ params }: { params: { slug: string } }) {
 
   const userData = localStorage.getItem("@user-data");
 
-  const userName = JSON.parse(userData);
+  const userName = JSON.parse(userData || "");
 
   function handleUpdatePassword(data: UpdateProfileData) {
     const api = setupAPIClient();

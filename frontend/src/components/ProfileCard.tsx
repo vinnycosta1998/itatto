@@ -13,6 +13,10 @@ export function ProfileCard({ slug }: ProfileCardProps) {
         <Link href={`/profile/${slug}`}>Minha conta</Link>
       </div>
       <Separator />
+      <div className="text-white text-center">
+        <Link href={`/portfolio/${slug}`}>Portfolio</Link>
+      </div>
+      <Separator />
       <div className="text-red-400">
         <button onClick={() => signOut()}>Fazer logout</button>
       </div>

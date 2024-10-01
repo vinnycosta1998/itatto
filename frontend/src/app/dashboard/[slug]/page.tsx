@@ -11,7 +11,6 @@ import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 
 import { setupAPIClient } from "@/lib/axios/api";
-import { toast } from "sonner";
 
 interface TattooProps {
   id: string;
@@ -24,12 +23,6 @@ interface TattooProps {
   user_id: string;
 }
 [];
-
-interface UserDataProps {
-  id: string;
-  name: string;
-  email: string;
-}
 
 export default function Dashboard({ params }: { params: { slug: string } }) {
   const { user } = useContext(AuthContext);
@@ -59,7 +52,7 @@ export default function Dashboard({ params }: { params: { slug: string } }) {
 
   const userData = localStorage.getItem("@user-data");
 
-  const userName = JSON.parse(userData);
+  const userName = JSON.parse(userData || "");
 
   return (
     <div className={"w-screen h-screen bg-black"}>
@@ -68,7 +61,7 @@ export default function Dashboard({ params }: { params: { slug: string } }) {
         <main className="mt-12 pl-16">
           <div>
             <h1 className="font-bold text-2xl text-white neon-text mb-2">
-              Realista
+              Seus uploads
             </h1>
           </div>
           {tattoos.length === 0 ? (

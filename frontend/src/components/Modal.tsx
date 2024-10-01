@@ -158,8 +158,15 @@ export function Modal({ modalIsOpen, handleCloseModal, slug }: ModalProps) {
             className="w-full h-8 bg-zinc-800 text-zinc-400 cursor-pointer px-2 rounded-md outline-none"
             {...register("genre")}
           >
-            <option value="Abstrato">Abstrato</option>
-            <option value="Realista">Realista</option>
+            <option value="abstrato">Abstrato</option>
+            <option value="realista">Realista</option>
+            <option value="old-school">Old School</option>
+            <option value="pontilhismo">Pontilhismo</option>
+            <option value="black-work">Black Work</option>
+            <option value="geometrico">Geometrico</option>
+            <option value="minimalista">Minimalista</option>
+            <option value="single-line">Single Line</option>
+            <option value="oriental">Oriental</option>
           </select>
           {errors.genre && (
             <span className="text-red-500">{errors.genre.message}</span>
