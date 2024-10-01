@@ -1,11 +1,12 @@
-import { randomUUID } from 'node:crypto'
-import { TattooArtistProps, TattoosArtistRepository } from '../tattoo-artist-repository'
+import { randomUUID } from "node:crypto";
+import { TattoosArtistRepository } from "../tattoo-artist-repository";
+import { TattooArtist } from "@prisma/client";
 
 export class InMemoryTattooArtistRepository implements TattoosArtistRepository {
-  public items: TattooArtistProps[] = []
+  public items: TattooArtist[] = [];
 
-  async create(data: TattooArtistProps) {
-    const tattoo = {
+  async create(data: TattooArtist) {
+    const artist = {
       id: randomUUID(),
       name: data.name,
       bio: data.bio,
@@ -15,20 +16,23 @@ export class InMemoryTattooArtistRepository implements TattoosArtistRepository {
       street: data.street,
       neighborhood: data.neighborhood,
       city: data.city,
-    }
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      user_id: "user-id",
+    };
 
-    this.items.push(tattoo)
+    this.items.push(artist);
 
-    return tattoo
+    return artist;
   }
 
-  async findByPhone(phone: string){
-    const phoneArtist = this.items.find(item => item.id === phone)
+  async findByPhone(phone: string) {
+    const phoneArtist = this.items.find((item) => item.phone === phone);
 
     if (!phoneArtist) {
-      return null
+      return null;
     }
 
-    return phoneArtist
+    return phoneArtist;
   }
 }

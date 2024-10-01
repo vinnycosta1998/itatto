@@ -64,7 +64,7 @@ export function Modal({ modalIsOpen, handleCloseModal, slug }: ModalProps) {
     formData.append("genre", data.genre);
 
     if (selectedFiles.length > 0) {
-      formData.append("image", selectedFiles[0]); // Adiciona a imagem
+      formData.append("image", selectedFiles[0]);
     }
 
     api
@@ -190,7 +190,7 @@ export function Modal({ modalIsOpen, handleCloseModal, slug }: ModalProps) {
           <p className="text-zinc-600 text-sm mt-2">
             Fomatos suportados: (.jpg, .jpeg, .png)
           </p>
-          <span className="text-zinc-600 text-sm mt-2">Tamanho máximo 3mb</span>
+          <span className="text-zinc-600 text-sm mt-2">Tamanho máximo 8Mb</span>
         </div>
 
         <button

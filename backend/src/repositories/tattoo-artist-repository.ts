@@ -1,6 +1,6 @@
-import { Prisma, TattooArtist } from '@prisma/client'
+import { Prisma, TattooArtist } from "@prisma/client";
 
 export interface TattoosArtistRepository {
-  create(data: Prisma.TattooArtistCreateInput, userId: string): Promise<TattooArtist>
-  findByPhone(phone: string): Promise<TattooArtist | null>
+  create(data: Prisma.TattooArtistCreateInput): Promise<TattooArtist>;
+  findByPhone(phone: string): Promise<TattooArtist | null>;
 }

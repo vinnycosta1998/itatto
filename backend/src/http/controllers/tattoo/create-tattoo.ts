@@ -1,11 +1,11 @@
-import type { FastifyReply, FastifyRequest } from 'fastify';
-import { z } from 'zod';
-import { makeCreateTattoo } from '../../../factories/tattoo/make-create-tattoo-use-case';
-import { DescriptionHasLongError } from '../../../errors/description-has-long-error';
-import { UploadImageError } from '../../../errors/upload-image-error';
-import fs from 'fs';
-import util from 'util';
-import { pipeline } from 'stream';
+import type { FastifyReply, FastifyRequest } from "fastify";
+import { z } from "zod";
+import { makeCreateTattoo } from "../../../factories/tattoo/make-create-tattoo-use-case";
+import { DescriptionHasLongError } from "../../../errors/description-has-long-error";
+import { UploadImageError } from "../../../errors/upload-image-error";
+import fs from "fs";
+import util from "util";
+import { pipeline } from "stream";
 
 // Função para criar uma tatuagem
 export async function createTattoo(req: FastifyRequest, res: FastifyReply) {
@@ -13,18 +13,18 @@ export async function createTattoo(req: FastifyRequest, res: FastifyReply) {
   const pump = util.promisify(pipeline);
 
   // Variáveis para armazenar os campos textuais e o caminho da imagem
-  let title = '';
-  let description = '';
-  let genre = '';
-  let imagePath = '';
+  let title = "";
+  let description = "";
+  let genre = "";
+  let imagePath = "";
 
   try {
     // Verifica se há arquivos/partes no request (multipart)
-    const parts = req.parts({limits: {fileSize: 3.145728}});
+    const parts = req.parts({ limits: { fileSize: 8388608 } });
 
     // Loop para processar as partes do FormData (arquivos e campos de texto)
     for await (const part of parts) {
-      if (part.type === 'file') {
+      if (part.type === "file") {
         // Tratando os arquivos do FormData
         if (part.file && part.filename) {
           const filePath = `./src/public/${part.filename}`;
@@ -33,9 +33,9 @@ export async function createTattoo(req: FastifyRequest, res: FastifyReply) {
         }
       } else {
         // Tratando os campos textuais do FormData
-        if (part.fieldname === 'title') title = part.value;
-        if (part.fieldname === 'description') description = part.value;
-        if (part.fieldname === 'genre') genre = part.value;
+        if (part.fieldname === "title") title = part.value;
+        if (part.fieldname === "description") description = part.value;
+        if (part.fieldname === "genre") genre = part.value;
       }
     }
 
@@ -61,11 +61,10 @@ export async function createTattoo(req: FastifyRequest, res: FastifyReply) {
       image: imagePath,
     });
 
-    return res.status(201).send({ message: 'Tattoo created successfully!' });
-
+    return res.status(201).send({ message: "Tattoo created successfully!" });
   } catch (err) {
     if (err instanceof DescriptionHasLongError) {
-      return res.status(413).send({ message: 'Payload too large' });
+      return res.status(413).send({ message: "Payload too large" });
     }
 
     if (err instanceof UploadImageError) {

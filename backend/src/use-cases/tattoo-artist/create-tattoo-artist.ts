@@ -1,36 +1,44 @@
+import { Prisma, TattooArtist } from "@prisma/client";
+import { BioHasLengthError } from "../../errors/bio-has-length-error";
 import { TattooArtistWithSamePhoneNumber } from "../../errors/tattoo-artist-with-same-phone-number-error";
-import { TattooArtistProps, TattoosArtistRepository } from "../../repositories/tattoo-artist-repository";
+import { TattoosArtistRepository } from "../../repositories/tattoo-artist-repository";
 
-type CreateTattooArtistRequest = TattooArtistProps
+interface CreateTattooArtistRequest extends Prisma.TattooArtistCreateInput {}
 
-type CreateTattooArtistResponse = {
-    artist: TattooArtistProps
+interface CreateTattooArtistResponse {
+  artist: TattooArtist;
 }
 
-export class CreateTattooArtistUseCase{
-    constructor(private tattoArtist: TattoosArtistRepository ){}
+export class CreateTattooArtistUseCase {
+  constructor(private tattoArtist: TattoosArtistRepository) {}
 
-    async execute({...props } : CreateTattooArtistRequest) : Promise<CreateTattooArtistResponse>{
-        const phone = await this.tattoArtist.findByPhone(props.phone)
-
-        if(phone){
-            throw new TattooArtistWithSamePhoneNumber()
-        }
-
-        const artist = await this.tattoArtist.create({
-            id: props.id,
-            name: props.name,
-            bio: props.bio,
-            image: props.image,
-            phone: props.phone,
-            cep: props.cep,
-            street: props.street,
-            neighborhood: props.neighborhood,
-            city: props.city
-        })
-
-        return {
-            artist
-        }
+  async execute({
+    ...props
+  }: CreateTattooArtistRequest): Promise<CreateTattooArtistResponse> {
+    if (props.bio.length < 8 || props.bio.length > 240) {
+      throw new BioHasLengthError();
     }
+
+    const phone = await this.tattoArtist.findByPhone(props.phone);
+
+    if (phone) {
+      throw new TattooArtistWithSamePhoneNumber();
+    }
+
+    const artist = await this.tattoArtist.create({
+      id: props.id,
+      name: props.name,
+      bio: props.bio,
+      image: props.image,
+      phone: props.phone,
+      cep: props.cep,
+      street: props.street,
+      neighborhood: props.neighborhood,
+      city: props.city,
+    });
+
+    return {
+      artist,
+    };
+  }
 }

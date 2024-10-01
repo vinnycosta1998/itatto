@@ -1,14 +1,15 @@
 "use client";
 
 import { useContext } from "react";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import Link from "next/link";
 import { AuthContext } from "@/context/auth-context";
+import Link from "next/link";
+
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
 import { setupAPIClient } from "@/lib/axios/api";
 import { toast } from "sonner";
-import { compare } from "bcryptjs";
 
 const updateProfileBodySchema = z
   .object({
@@ -41,6 +42,10 @@ export default function Profile({ params }: { params: { slug: string } }) {
   } = useForm<UpdateProfileData>({
     resolver: zodResolver(updateProfileBodySchema),
   });
+
+  const userData = localStorage.getItem("@user-data");
+
+  const userName = JSON.parse(userData);
 
   function handleUpdatePassword(data: UpdateProfileData) {
     const api = setupAPIClient();
@@ -76,7 +81,7 @@ export default function Profile({ params }: { params: { slug: string } }) {
           <input
             type="text"
             className="w-[26rem] h-12 bg-zinc-900 px-2 rounded-md outline-none placeholder:text-zinc-600"
-            placeholder={user.name}
+            placeholder={userName.name}
             readOnly
           />
 
@@ -86,7 +91,7 @@ export default function Profile({ params }: { params: { slug: string } }) {
           <input
             type="text"
             className="w-[26rem] h-12 bg-zinc-900 px-2 rounded-md outline-none  placeholder:text-zinc-600"
-            placeholder={user.email}
+            placeholder={userName.email}
             readOnly
           />
           <div className="w-[26rem] flex justify-start">

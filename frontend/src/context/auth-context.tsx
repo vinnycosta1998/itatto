@@ -116,13 +116,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
       api
         .get("/me")
         .then((response) => {
-          console.log(response);
           const { id, name, email } = response.data;
           setUser({ id, name, email });
         })
         .catch((error) => {
           console.error("Erro ao buscar dados do usuário", error);
-          signOut();
+          // signOut();
           router.push("/signin");
         });
     }

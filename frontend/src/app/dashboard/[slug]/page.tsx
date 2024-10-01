@@ -1,13 +1,17 @@
 "use client";
 
 import { useState, useEffect, useContext } from "react";
+import { AuthContext, signOut } from "@/context/auth-context";
+
 import { Header } from "@/components/Header";
 import { TattooCard } from "@/components/TattooCard";
+import { EmpytList } from "@/components/EmpytList";
+
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
-import { AuthContext, signOut } from "@/context/auth-context";
+
 import { setupAPIClient } from "@/lib/axios/api";
-import { EmpytList } from "@/components/EmpytList";
+import { toast } from "sonner";
 
 interface TattooProps {
   id: string;
@@ -21,8 +25,14 @@ interface TattooProps {
 }
 [];
 
+interface UserDataProps {
+  id: string;
+  name: string;
+  email: string;
+}
+
 export default function Dashboard({ params }: { params: { slug: string } }) {
-  const { isAuthenticated, user } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const [loading, setLoading] = useState<boolean>(false);
   const [tattoos, setTattoos] = useState<TattooProps[]>([]);
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false }, [Autoplay()]);
@@ -45,12 +55,16 @@ export default function Dashboard({ params }: { params: { slug: string } }) {
 
   useEffect(() => {
     fetchTattooData();
-  }, [tattoos]);
+  }, []);
+
+  const userData = localStorage.getItem("@user-data");
+
+  const userName = JSON.parse(userData);
 
   return (
     <div className={"w-screen h-screen bg-black"}>
       <div className="w-full h-full">
-        <Header name={""} slug={params.slug} />
+        <Header name={userName.name} slug={params.slug} />
         <main className="mt-12 pl-16">
           <div>
             <h1 className="font-bold text-2xl text-white neon-text mb-2">
