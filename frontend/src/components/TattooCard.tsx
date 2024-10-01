@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Image from "next/image";
 import { LoadingCard } from "./LoadingCard";
 
@@ -8,6 +9,7 @@ interface TattooCardProps {
 }
 
 export function TattooCard({ greater, tattooImg, isLoading }: TattooCardProps) {
+  const [mouseInOver, setMouseInOver] = useState(false);
   const cardWidth = greater ? 400 : 144;
   return (
     <div
