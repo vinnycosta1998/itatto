@@ -21,6 +21,20 @@ export class PrismaTattooArtistRepository implements TattoosArtistRepository {
     return artist;
   }
 
+  async findById(userId: string) {
+    const artist = await prisma.tattooArtist.findFirst({
+      where: {
+        id: userId,
+      },
+    });
+
+    if (!artist) {
+      return null;
+    }
+
+    return artist;
+  }
+
   async findByPhone(phone: string) {
     const phoneArtist = await prisma.tattooArtist.findFirst({
       where: {
