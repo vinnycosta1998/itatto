@@ -15,6 +15,7 @@ import { getListTattoo } from "../http/controllers/tattoo/get-list-tattoo";
 import { updatePassword } from "../http/controllers/user/update-password";
 import { verifyJWT } from "../http/middlewares/verify-jwt";
 import { CreateTattoArtist } from "../http/controllers/tattoo-artist/create-tattoo-artist";
+import { getListTattooArtist } from "../http/controllers/tattoo-artist/get-list-tattoo-atist";
 
 export async function appRoutes(app: FastifyInstance) {
   app.post("/register", register);
@@ -42,5 +43,11 @@ export async function appRoutes(app: FastifyInstance) {
     "/create-tattoo-artist",
     { onRequest: [verifyJWT] },
     CreateTattoArtist,
+  );
+
+  app.get(
+    "/list-tattoo-artist",
+    { onRequest: [verifyJWT] },
+    getListTattooArtist,
   );
 }

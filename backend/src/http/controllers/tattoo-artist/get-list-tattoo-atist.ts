@@ -4,7 +4,7 @@ import { z } from "zod";
 import { makeGetListTattooArtist } from "../../../factories/tattoo-artist/make-get-list-tattoo-use-case";
 import { TattooArtistNotFoundError } from "../../../errors/tattoo-artist-not-found-error";
 
-export async function getListTattooartist(
+export async function getListTattooArtist(
   req: FastifyRequest,
   res: FastifyReply,
 ) {
