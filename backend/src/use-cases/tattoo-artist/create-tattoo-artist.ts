@@ -35,6 +35,7 @@ export class CreateTattooArtistUseCase {
       street: props.street,
       neighborhood: props.neighborhood,
       city: props.city,
+      houseNumber: props.houseNumber,
     });
 
     return {

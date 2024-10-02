@@ -16,6 +16,7 @@ export class InMemoryTattooArtistRepository implements TattoosArtistRepository {
       street: data.street,
       neighborhood: data.neighborhood,
       city: data.city,
+      houseNumber: data.houseNumber,
       createdAt: new Date(),
       updatedAt: new Date(),
       user_id: "user-id",

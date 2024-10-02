@@ -1,9 +1,9 @@
-import { Prisma } from '@prisma/client'
-import { prisma } from '../../lib/prisma'
-import {  TattoosArtistRepository } from '../tattoo-artist-repository'
+import { Prisma } from "@prisma/client";
+import { prisma } from "../../lib/prisma";
+import { TattoosArtistRepository } from "../tattoo-artist-repository";
 
-export class PrismaTattooArtistRepository implements TattoosArtistRepository{
-  async create(data: Prisma.TattooArtistCreateInput, userId:string) {
+export class PrismaTattooArtistRepository implements TattoosArtistRepository {
+  async create(data: Prisma.TattooArtistCreateInput) {
     const artist = await prisma.tattooArtist.create({
       data: {
         name: data.name,
@@ -14,24 +14,24 @@ export class PrismaTattooArtistRepository implements TattoosArtistRepository{
         street: data.street,
         neighborhood: data.neighborhood,
         city: data.city,
-        userId
-      }
-    })
+        houseNumber: data.houseNumber,
+      },
+    });
 
-    return artist
+    return artist;
   }
 
   async findByPhone(phone: string) {
     const phoneArtist = await prisma.tattooArtist.findFirst({
       where: {
-        phone
-      }
-    })
+        phone,
+      },
+    });
 
-    if(phoneArtist){
-      return null
+    if (phoneArtist) {
+      return null;
     }
 
-    return phoneArtist
+    return phoneArtist;
   }
 }

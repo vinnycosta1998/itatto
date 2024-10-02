@@ -12,11 +12,9 @@ export function ProfileCard({ slug }: ProfileCardProps) {
       <div className="text-white">
         <Link href={`/account/${slug}`}>Minha conta</Link>
       </div>
-      <Separator />
       <div className="text-white text-center">
         <Link href={`/profile/${slug}`}>Meu perfil</Link>
       </div>
-      <Separator />
       <div className="text-white text-center">
         <Link href={`/portfolio/${slug}`}>Portfolio</Link>
       </div>

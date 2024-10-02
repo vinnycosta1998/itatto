@@ -25,6 +25,7 @@ describe("Create Tattoo Artist", () => {
       street: "Avenida Atlantica",
       neighborhood: "Barra Sul",
       city: "balneario Camboriu",
+      houseNumber: "300",
     });
 
     expect(artist.id).toEqual(expect.any(String));
@@ -41,6 +42,7 @@ describe("Create Tattoo Artist", () => {
       street: "Avenida Atlantica",
       neighborhood: "Barra Sul",
       city: "balneario Camboriu",
+      houseNumber: "300",
     });
 
     expect(() =>
@@ -54,6 +56,7 @@ describe("Create Tattoo Artist", () => {
         street: "Avenida Atlantica",
         neighborhood: "Barra Sul",
         city: "balneario Camboriu",
+        houseNumber: "300",
       }),
     ).rejects.toBeInstanceOf(TattooArtistWithSamePhoneNumber);
   });
@@ -70,6 +73,7 @@ describe("Create Tattoo Artist", () => {
         street: "Avenida Atlantica",
         neighborhood: "Barra Sul",
         city: "balneario Camboriu",
+        houseNumber: "300",
       }),
     ).rejects.toBeInstanceOf(BioHasLengthError);
   });

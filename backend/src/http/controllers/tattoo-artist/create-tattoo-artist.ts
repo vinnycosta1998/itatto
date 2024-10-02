@@ -21,6 +21,7 @@ export async function CreateTattoArtist(
   let street = "";
   let neighborhood = "";
   let city = "";
+  let houseNumber = "";
 
   try {
     const parts = req.parts({ limits: { fileSize: 8.388608 } });
@@ -40,6 +41,7 @@ export async function CreateTattoArtist(
         if (part.fieldname === "street") street = part.value;
         if (part.fieldname === "neighborhood") neighborhood = part.value;
         if (part.fieldname === "city") city = part.value;
+        if (part.fieldname === "houseNumber") houseNumber = part.value;
       }
     }
 
@@ -51,6 +53,7 @@ export async function CreateTattoArtist(
       street: z.string(),
       neighborhood: z.string(),
       city: z.string(),
+      houseNumber: z.string(),
     });
 
     createTattoArtistBodySchema.parse({
@@ -61,6 +64,7 @@ export async function CreateTattoArtist(
       street,
       neighborhood,
       city,
+      houseNumber,
     });
 
     if (!image) {
@@ -78,6 +82,7 @@ export async function CreateTattoArtist(
       street,
       neighborhood,
       city,
+      houseNumber,
     });
 
     return res.status(201).send({

@@ -30,6 +30,7 @@ model TattooArtist {
   street       String
   neighborhood String
   city         String
+  houseNumber  String
 
   createdAt DateTime? @default(now())
   updatedAt DateTime? @default(now())
