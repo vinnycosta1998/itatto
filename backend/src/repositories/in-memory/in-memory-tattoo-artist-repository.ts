@@ -27,6 +27,16 @@ export class InMemoryTattooArtistRepository implements TattoosArtistRepository {
     return artist;
   }
 
+  async findById(id: string) {
+    const artist = this.items.find((item) => item.id === id);
+
+    if (!artist) {
+      return null;
+    }
+
+    return artist;
+  }
+
   async findByPhone(phone: string) {
     const phoneArtist = this.items.find((item) => item.phone === phone);
 

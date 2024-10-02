@@ -24,7 +24,7 @@ export async function CreateTattoArtist(
   let houseNumber = "";
 
   try {
-    const parts = req.parts({ limits: { fileSize: 8.388608 } });
+    const parts = req.parts({ limits: { fileSize: 8388608 } });
 
     for await (const part of parts) {
       if (part.type === "file") {

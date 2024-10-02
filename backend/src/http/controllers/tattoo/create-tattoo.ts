@@ -7,19 +7,15 @@ import fs from "fs";
 import util from "util";
 import { pipeline } from "stream";
 
-// Função para criar uma tatuagem
 export async function createTattoo(req: FastifyRequest, res: FastifyReply) {
-  // Definindo o pipeline para manipular streams
   const pump = util.promisify(pipeline);
 
-  // Variáveis para armazenar os campos textuais e o caminho da imagem
   let title = "";
   let description = "";
   let genre = "";
   let imagePath = "";
 
   try {
-    // Verifica se há arquivos/partes no request (multipart)
     const parts = req.parts({ limits: { fileSize: 8388608 } });
 
     // Loop para processar as partes do FormData (arquivos e campos de texto)

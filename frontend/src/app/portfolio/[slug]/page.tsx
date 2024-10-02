@@ -10,6 +10,7 @@ import { TattooCard } from "@/components/TattooCard";
 export default function Portfolio({ params }: { params: { slug: string } }) {
   const { user } = useContext(AuthContext);
   const [tattoos, setTattoos] = useState([]);
+  const [artist, setArtist] = useState([]);
 
   const fetchTattooData = () => {
     const api = setupAPIClient();
