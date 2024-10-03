@@ -26,7 +26,7 @@ export async function appRoutes(app: FastifyInstance) {
 
   // Tatto routes
   app.post("/create-tattoo", { onRequest: [verifyJWT] }, createTattoo);
-  app.delete("/delete-tattoo", { onRequest: [verifyJWT] }, deleteTattoo);
+  app.post("/delete-tattoo", { onRequest: [verifyJWT] }, deleteTattoo);
   app.post("/search-tattoo", { onRequest: [verifyJWT] }, SearchManyTattoo);
   app.put(
     "/update-description",
@@ -45,7 +45,7 @@ export async function appRoutes(app: FastifyInstance) {
     CreateTattoArtist,
   );
 
-  app.get(
+  app.post(
     "/list-tattoo-artist",
     { onRequest: [verifyJWT] },
     getListTattooArtist,

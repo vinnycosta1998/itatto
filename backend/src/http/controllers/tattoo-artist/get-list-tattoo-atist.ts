@@ -17,9 +17,9 @@ export async function getListTattooArtist(
   try {
     const getListTattooArtistUseCase = makeGetListTattooArtist();
 
-    await getListTattooArtistUseCase.execute({ userId });
+    const artist = await getListTattooArtistUseCase.execute({ userId });
 
-    return res.status(200).send({ message: "ok" });
+    return res.status(200).send(artist);
   } catch (err) {
     if (err instanceof TattooArtistNotFoundError) {
       return res.status(404).send({ message: "Tattoo artist not found" });

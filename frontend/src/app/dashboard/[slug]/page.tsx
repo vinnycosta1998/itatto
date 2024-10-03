@@ -40,7 +40,6 @@ export default function Dashboard({ params }: { params: { slug: string } }) {
           page: 1,
         })
         .then((response) => {
-          console.log(response.data.tattoos.tattoos);
           setTattoos(response.data.tattoos.tattoos);
         });
     }
@@ -48,7 +47,7 @@ export default function Dashboard({ params }: { params: { slug: string } }) {
 
   useEffect(() => {
     fetchTattooData();
-  }, []);
+  }, [loading]);
 
   const userData = localStorage.getItem("@user-data");
 
@@ -76,6 +75,8 @@ export default function Dashboard({ params }: { params: { slug: string } }) {
                     return (
                       <TattooCard
                         key={tattoo.id}
+                        id={tattoo.id}
+                        greater={false}
                         tattooImg={tattoo.image}
                         isLoading={loading}
                       />

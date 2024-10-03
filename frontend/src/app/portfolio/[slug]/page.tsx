@@ -10,7 +10,7 @@ import { TattooCard } from "@/components/TattooCard";
 export default function Portfolio({ params }: { params: { slug: string } }) {
   const { user } = useContext(AuthContext);
   const [tattoos, setTattoos] = useState([]);
-  const [artist, setArtist] = useState([]);
+  const [artist, setArtist] = useState({});
 
   const fetchTattooData = () => {
     const api = setupAPIClient();
@@ -28,20 +28,39 @@ export default function Portfolio({ params }: { params: { slug: string } }) {
     }
   };
 
+  const fetchTattooArtistData = () => {
+    const api = setupAPIClient();
+
+    if (user) {
+      api
+        .post("/list-tattoo-artist", {
+          userId: params.slug,
+        })
+        .then((response) => {
+          console.log(response.data.artist);
+          setArtist(response.data.artist);
+        });
+    }
+  };
+
   useEffect(() => {
     fetchTattooData();
+    fetchTattooArtistData();
   }, []);
 
   return (
     <div className="w-screen h-[140vh] bg-black pt-20 flex flex-col items-center">
       <div className="w-[83rem] flex justify-around items-center">
         <div className="text-white">
-          <h1 className="font-bold neon-text text-6xl">
-            Vinicius Costa de Almeida
-          </h1>
-          <span className="text-center">
-            Tatuador com 20 anos de experiencia
-          </span>
+          <h1 className="font-bold neon-text text-6xl">{artist.name}</h1>
+          <div className="flex flex-col items-start">
+            <span className="text-center">{artist.bio}</span>
+            <span className="text-center text-zinc-400">
+              {artist.city} - {artist.state} {artist.neighborhood}-{" "}
+              {artist.street}-{artist.houseNumber}{" "}
+              <u className="cursor-pointer  ">{artist.phone}</u>{" "}
+            </span>
+          </div>
         </div>
         <div>
           <Image

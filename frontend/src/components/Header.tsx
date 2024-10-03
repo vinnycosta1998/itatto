@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { ProfileCard } from "./ProfileCard";
-import { User } from "lucide-react";
+import { Divide, User } from "lucide-react";
 import { Modal } from "./Modal";
 import Typewriter from "typewriter-effect";
 

@@ -1,11 +1,13 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
-import { z } from "zod";
-import { makeCreateTattoo } from "../../../factories/tattoo/make-create-tattoo-use-case";
+import fs from "fs";
+import { pipeline } from "stream";
+import util from "util";
+
 import { DescriptionHasLongError } from "../../../errors/description-has-long-error";
 import { UploadImageError } from "../../../errors/upload-image-error";
-import fs from "fs";
-import util from "util";
-import { pipeline } from "stream";
+
+import { z } from "zod";
+import { makeCreateTattoo } from "../../../factories/tattoo/make-create-tattoo-use-case";
 
 export async function createTattoo(req: FastifyRequest, res: FastifyReply) {
   const pump = util.promisify(pipeline);
@@ -14,6 +16,7 @@ export async function createTattoo(req: FastifyRequest, res: FastifyReply) {
   let description = "";
   let genre = "";
   let imagePath = "";
+  let user_id = "";
 
   try {
     const parts = req.parts({ limits: { fileSize: 8388608 } });
@@ -32,6 +35,7 @@ export async function createTattoo(req: FastifyRequest, res: FastifyReply) {
         if (part.fieldname === "title") title = part.value;
         if (part.fieldname === "description") description = part.value;
         if (part.fieldname === "genre") genre = part.value;
+        if (part.fieldname === "user_id") user_id = part.value;
       }
     }
 
@@ -40,9 +44,10 @@ export async function createTattoo(req: FastifyRequest, res: FastifyReply) {
       title: z.string().min(2).max(24),
       description: z.string().min(2).max(60),
       genre: z.string(),
+      user_id: z.string(),
     });
 
-    createTattooBodySchema.parse({ title, description, genre });
+    createTattooBodySchema.parse({ title, description, genre, user_id });
 
     if (!imagePath) {
       throw new UploadImageError();
@@ -55,6 +60,7 @@ export async function createTattoo(req: FastifyRequest, res: FastifyReply) {
       description,
       genre,
       image: imagePath,
+      user_id,
     });
 
     return res.status(201).send({ message: "Tattoo created successfully!" });

@@ -1,16 +1,17 @@
-import type { TattoosRepository } from '../../repositories/tattoos-repository'
-import { DescriptionHasLongError } from '../../errors/description-has-long-error'
-import type { Prisma } from '@prisma/client'
+import type { TattoosRepository } from "../../repositories/tattoos-repository";
+import { DescriptionHasLongError } from "../../errors/description-has-long-error";
+import type { Prisma } from "@prisma/client";
 
 interface CreateTattooRequestProps {
-  title: string
-  description: string
-  genre: string
-  image: string
+  title: string;
+  description: string;
+  genre: string;
+  image: string;
+  user_id: string;
 }
 
 interface CreateTattooResponseProps {
-  tattoo: Prisma.TattoCreateInput
+  tattoo: Prisma.TattoCreateInput;
 }
 
 export class CreateTattoUseCase {
@@ -20,23 +21,27 @@ export class CreateTattoUseCase {
     title,
     description,
     genre,
-    image
+    image,
+    user_id,
   }: CreateTattooRequestProps): Promise<CreateTattooResponseProps> {
-    const descriptionLength = description.length
+    const descriptionLength = description.length;
 
     if (descriptionLength > 60) {
-      throw new DescriptionHasLongError()
+      throw new DescriptionHasLongError();
     }
 
-    const tattoo = await this.tattoosRepository.create({
-      title,
-      description,
-      genre,
-      image
-    })
+    const tattoo = await this.tattoosRepository.create(
+      {
+        title,
+        description,
+        genre,
+        image,
+      },
+      user_id,
+    );
 
     return {
-      tattoo
-    }
+      tattoo,
+    };
   }
 }

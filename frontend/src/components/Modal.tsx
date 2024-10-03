@@ -54,6 +54,10 @@ export function Modal({ modalIsOpen, handleCloseModal, slug }: ModalProps) {
     multiple: false,
   });
 
+  const userData = localStorage.getItem("@user-data");
+  const userDataParsed = JSON.parse(userData || "");
+  let userId = userDataParsed.id;
+
   function handleCreateTattoo(data: CreateTattooData) {
     setLoading(true);
 
@@ -62,6 +66,7 @@ export function Modal({ modalIsOpen, handleCloseModal, slug }: ModalProps) {
     formData.append("title", data.title);
     formData.append("description", data.description);
     formData.append("genre", data.genre);
+    formData.append("user_id", userId);
 
     if (selectedFiles.length > 0) {
       formData.append("image", selectedFiles[0]);
@@ -94,7 +99,7 @@ export function Modal({ modalIsOpen, handleCloseModal, slug }: ModalProps) {
   }
 
   return (
-    <div className="w-[30rem] h-[46rem] bg-zinc-950 absolute top-[20%] left-[42%] rounded-lg flex flex-col items-center justify-center">
+    <div className="w-[30rem] h-[46rem] bg-zinc-950 absolute z-20 top-[20%] left-[42%] rounded-lg flex flex-col items-center justify-center">
       <header className="w-full h-8 flex justify-end items-center px-4 py-6 text-red-400 gap-2">
         <button
           className="w-3 h-3 rounded-full bg-red-400"
